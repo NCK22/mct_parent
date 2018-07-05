@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+
+
+        <item
+            android:id="@+id/menu_go_home"
+            android:checkable="true"
+            android:icon="@drawable/ic_launcher_foreground"
+            android:title="@string/menu_home" />
+
+        <item
+            android:id="@+id/menu_go_profile"
+            android:checked="true"
+            android:icon="@drawable/ic_launcher_foreground"
+            android:title="@string/menu_profile" />
+
+        <item
+            android:id="@+id/menu_go_logout"
+            android:checked="true"
+            android:icon="@drawable/ic_launcher_foreground"
+            android:title="@string/menu_logout" />
+
+
+
+
+    </group>
+</menu>

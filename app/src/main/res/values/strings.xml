@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">MCTParent</string>
+
+
+    <string name="drawer_open">Drawer Open</string>
+    <string name="drawer_close">Drawer Close</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_matches">Matches</string>
+    <string name="menu_profile">My Profile</string>
+
+
+    <string name="default_email">apps@dev.com</string>
+    <string name="menu_logout">Logout</string>
+    <string name="logout_msg">Do you really want to log out?</string>
+    <string name="menu_setting">Settings</string>
+    <string name="exit_msg">Do you really want to Exit?</string>
+</resources>
