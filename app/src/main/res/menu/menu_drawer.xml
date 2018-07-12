@@ -17,6 +17,12 @@
             android:title="@string/menu_profile" />
 
         <item
+            android:id="@+id/menu_go_stud_prof"
+            android:checked="true"
+            android:icon="@drawable/ic_launcher_foreground"
+            android:title="@string/menu_stud_profile" />
+
+        <item
             android:id="@+id/menu_go_logout"
             android:checked="true"
             android:icon="@drawable/ic_launcher_foreground"

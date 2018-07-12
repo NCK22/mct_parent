@@ -23,6 +23,7 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     compile 'com.android.support:design:27.1.1'
+    compile 'com.android.support:cardview-v7:27.+'
     compile 'cn.gavinliu.android.lib:ShapedImageView:0.8.4'
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.google.code.gson:gson:2.6.2'

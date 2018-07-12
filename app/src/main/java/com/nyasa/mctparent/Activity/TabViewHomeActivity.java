@@ -24,9 +24,15 @@ import android.view.View;
 import android.widget.TextView;
 
 
+import com.nyasa.mctparent.APIClient;
 import com.nyasa.mctparent.Fragment.TabChildTrack;
+import com.nyasa.mctparent.Interface.getChildListInterface;
+import com.nyasa.mctparent.Pojo.ChildPojoStudProf;
+import com.nyasa.mctparent.Pojo.ParentPojoStudProf;
 import com.nyasa.mctparent.R;
 import com.nyasa.mctparent.Storage.SPProfile;
+
+import java.util.ArrayList;
 
 import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
 import retrofit2.Call;
@@ -49,11 +55,13 @@ public class TabViewHomeActivity extends AppCompatActivity implements TabLayout.
     TabLayout tabLayout;
     SPProfile spCustProfile;
     ProgressDialog progressDialog;
+    ArrayList<ChildPojoStudProf> list_child=new ArrayList<ChildPojoStudProf>();
 
 
     Intent intent;
     Bundle bundle;
     String tabFlag="home";
+    int noOfTabs=1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,25 +88,30 @@ public class TabViewHomeActivity extends AppCompatActivity implements TabLayout.
         bundle = new Bundle();
         tabFlag=intent.getStringExtra("tabFlag");
 
+        getStudentList();
 
         //   Tabs Activity
 
-        mSectionsPagerAdapter = new TabViewHomeActivity.SectionsPagerAdapter(getSupportFragmentManager(),4);
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tl_parent);
+
+
+       /* mSectionsPagerAdapter = new TabViewHomeActivity.SectionsPagerAdapter(getSupportFragmentManager(),noOfTabs);
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.vp_parent);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tl_parent);
-
         mViewPager.setOffscreenPageLimit(0);
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
-        for (int i = 0; i < 4; i++) {
+
+
+
+        for (int i = 0; i < noOfTabs; i++) {
+            Log.e("tab",""+i);
             tabLayout.addTab(tabLayout.newTab().setText("Child " + String.valueOf(i + 1)));
         }
 
-
+*/
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView.getMenu().clear(); //clear old inflated items.
@@ -166,6 +179,12 @@ public class TabViewHomeActivity extends AppCompatActivity implements TabLayout.
                 logout();
                 return true;
 
+
+            case R.id.menu_go_stud_prof:
+                startActivity(new Intent(getApplicationContext(),StudentListActivity.class).putExtra("tabFlag","profile"));
+                finish();
+                return true;
+
         }
             return false;
     }
@@ -188,16 +207,16 @@ public class TabViewHomeActivity extends AppCompatActivity implements TabLayout.
             // Return a PlaceholderFragment (defined as a static inner class below).
 
             Log.e("position", String.valueOf(position));
-            //Log.e("positi", "" + tabLayout.getSelectedTabPosition());
+            Log.e("mNumOfTab", "" + mNumOfTabs);
 
-            for (int i = 0; i < mNumOfTabs ; i++) {
+            for (int i = 0; i <= mNumOfTabs ; i++) {
                 if (i == position) {
                     fragment = new TabChildTrack();
-                    break;
+                    return fragment;
                 }
             }
-            return fragment;
 
+            return null;
 
 
         }
@@ -259,48 +278,65 @@ public class TabViewHomeActivity extends AppCompatActivity implements TabLayout.
                 .show();
     }
 
- /*   public void getProfile(){
+    public void getStudentList(){
 
         progressDialog.show();
 
 
-        getProfileInterface getResponse = APIClient.getClient().create(getProfileInterface.class);
-        Call<ParentPojoProfile> call = getResponse.doGetListResources(spCustProfile.getMatrimonyId());
-        call.enqueue(new Callback<ParentPojoProfile>() {
+        getChildListInterface getResponse = APIClient.getClient().create(getChildListInterface.class);
+        Call<ParentPojoStudProf> call = getResponse.doGetListResources(spCustProfile.getParent_id());
+        call.enqueue(new Callback<ParentPojoStudProf>() {
             @Override
-            public void onResponse(Call<ParentPojoProfile> call, Response<ParentPojoProfile> response) {
+            public void onResponse(Call<ParentPojoStudProf> call, Response<ParentPojoStudProf> response) {
 
                 Log.e("Inside","onResponse");
-               *//* Log.e("response body",response.body().getStatus());
-                Log.e("response body",response.body().getMsg());*//*
-                ParentPojoProfile parentPojoProfile =response.body();
-                if(parentPojoProfile !=null){
-                    if(parentPojoProfile.getStatus().equalsIgnoreCase("1")){
+               // Log.e("response body",response.body().getStatus());
+                //Log.e("response body",response.body().getMsg());
+                ParentPojoStudProf parentPojoStudProf =response.body();
+                if(parentPojoStudProf !=null){
+                    if(parentPojoStudProf.getStatus().equalsIgnoreCase("true")){
+                        list_child=parentPojoStudProf.getObjProfile();
+                        noOfTabs=list_child.size();
                         Log.e("Response","Success");
-                        Log.e("objsize", ""+ parentPojoProfile.getObjProfile().size());
-                        if(parentPojoProfile.getObjProfile().get(0).getProfile_photo()!=null) {
-                            Log.e("profile_photo res", parentPojoProfile.getObjProfile().get(0).getProfile_photo());
-                            spCustProfile.setProfilePhotoPath(parentPojoProfile.getObjProfile().get(0).getProfile_photo());
+
+                        mSectionsPagerAdapter = new TabViewHomeActivity.SectionsPagerAdapter(getSupportFragmentManager(),noOfTabs);
+                        // Set up the ViewPager with the sections adapter.
+                        mViewPager = (ViewPager) findViewById(R.id.vp_parent);
+                        mViewPager.setAdapter(mSectionsPagerAdapter);
+                        mViewPager.setOffscreenPageLimit(0);
+                        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+                        tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
+
+
+
+
+                        for (int i = 0; i < noOfTabs; i++) {
+                            Log.e("tab",""+i);
+                            tabLayout.addTab(tabLayout.newTab().setText("Child " + String.valueOf(i + 1)));
                         }
-                       setHeader();
+
+
+
+                        //      Log.e("objsize", ""+ parentPojoProfile.getObjProfile().size());
+
+                       //setHeader();
 
                     }
                 }
                 else
                     Log.e("parentpojotabwhome","null");
                 progressDialog.dismiss();
-
             }
 
             @Override
-            public void onFailure(Call<ParentPojoProfile> call, Throwable t) {
+            public void onFailure(Call<ParentPojoStudProf> call, Throwable t) {
 
                 Log.e("throwable",""+t);
                 progressDialog.dismiss();
             }
         });
 
-    }*/
+    }
 
    /* private void setHeader() {
         if (spCustProfile.getIsLogin().equalsIgnoreCase("true")) {

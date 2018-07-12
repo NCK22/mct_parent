@@ -3,13 +3,13 @@ package com.nyasa.mctparent.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -19,43 +19,41 @@ import android.widget.Toast;
 
 import com.nyasa.mctparent.APIClient;
 import com.nyasa.mctparent.Interface.getProfileInterface;
+import com.nyasa.mctparent.Interface.getStudProfileInterface;
+import com.nyasa.mctparent.Pojo.ParentPojoGetStudProfile;
 import com.nyasa.mctparent.Pojo.ParentPojoLogin;
 import com.nyasa.mctparent.R;
 import com.nyasa.mctparent.Storage.SPProfile;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ProfileActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class StudDetailActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    TextView tvParentId,tvName,tvMacId,tvEmail,tvAddress,tvPhone,tvRelation,tvUName,tvPwd,tvStatus;
+    TextView tvParentId,tvName,tvMacId,tvSchoolId,tvStd,tvClass,tvStatus;
     Toolbar toolbar;
     DrawerLayout drawerLayout;
     private NavigationView navigationView;
     SPProfile spProfile;
     ProgressDialog progressDialog;
+    String child_id="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_stud_detail);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Profile");
+        toolbar.setTitle("Student Detail");
         spProfile=new SPProfile(this);
         progressDialog=new ProgressDialog(this);
 
         tvParentId=(TextView)findViewById(R.id.tv_parent_id);
         tvName=(TextView)findViewById(R.id.tv_name);
         tvMacId=(TextView)findViewById(R.id.tv_mac_id);
-        tvEmail=(TextView)findViewById(R.id.tv_email);
-        tvAddress=(TextView)findViewById(R.id.tv_address);
-        tvPhone=(TextView)findViewById(R.id.tv_phone);
-        tvRelation=(TextView)findViewById(R.id.tv_relation);
-        tvUName=(TextView)findViewById(R.id.tv_uname);
-        tvPwd=(TextView)findViewById(R.id.tv_pwd);
+        tvSchoolId=(TextView)findViewById(R.id.tv_school);
+        tvStd=(TextView)findViewById(R.id.tv_std);
+        tvClass=(TextView)findViewById(R.id.tv_class);
+
         tvStatus=(TextView)findViewById(R.id.tv_status);
 
 
@@ -83,6 +81,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
 
 
         Intent intent=getIntent();
+        child_id=intent.getStringExtra("child_id");
         try {
             /*if(intent!=null) {
                 JSONObject jsonObject = new JSONObject(intent.getStringExtra("response"));
@@ -114,13 +113,13 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         switch (item.getItemId()) {
             case R.id.menu_go_home:
                 //   toolbar.setTitle(getString(R.string.menu_home));
-                startActivity(new Intent(ProfileActivity.this, TabViewHomeActivity.class));
+                startActivity(new Intent(StudDetailActivity.this, TabViewHomeActivity.class));
                 return true;
 
 
             case R.id.menu_go_profile:
 //                toolbar.setTitle(getString(R.string.menu_matches));
-                startActivity(new Intent(getApplicationContext(),ProfileActivity.class).putExtra("tabFlag","profile"));
+                startActivity(new Intent(getApplicationContext(),StudDetailActivity.class).putExtra("tabFlag","profile"));
                 finish();
                 return true;
 
@@ -139,7 +138,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
 
     private void logout() {
 
-        new AlertDialog.Builder(ProfileActivity.this)
+        new AlertDialog.Builder(StudDetailActivity.this)
                 .setTitle(getString(R.string.menu_logout))
                 .setMessage(getString(R.string.logout_msg))
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
@@ -167,32 +166,32 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         //checkValidity();
 
         //if(flagAllValid==true) {
+        Log.e("child_id",child_id);
             progressDialog.show();
-            getProfileInterface getResponse = APIClient.getClient().create(getProfileInterface.class);
-            Call<ParentPojoLogin> call = getResponse.doGetListResources(spProfile.getParent_id());
-            call.enqueue(new Callback<ParentPojoLogin>() {
+            getStudProfileInterface getResponse = APIClient.getClient().create(getStudProfileInterface.class);
+            Call<ParentPojoGetStudProfile> call = getResponse.doGetListResources(child_id);
+            call.enqueue(new Callback<ParentPojoGetStudProfile>() {
                 @Override
-                public void onResponse(Call<ParentPojoLogin> call, Response<ParentPojoLogin> response) {
+                public void onResponse(Call<ParentPojoGetStudProfile> call, Response<ParentPojoGetStudProfile> response) {
 
                     Log.e("Inside", "onResponse");
                /* Log.e("response body",response.body().getStatus());
                 Log.e("response body",response.body().getMsg());*/
-                    ParentPojoLogin parentPojoLogin = response.body();
+                    ParentPojoGetStudProfile parentPojoLogin = response.body();
                     if (parentPojoLogin != null) {
                         if (parentPojoLogin.getStatus().equalsIgnoreCase("true")) {
                             Log.e("Response", parentPojoLogin.getStatus());
                             try {
-                                Log.e("json response 1",""+parentPojoLogin.getObjProfile().get(0).get("parent_id"));
+                                Log.e("json response 1",""+parentPojoLogin.getObjProfile().get(0).get("child_id"));
 
-                                tvParentId.setText(parentPojoLogin.getObjProfile().get(0).get("parent_id"));
+                                tvParentId.setText(parentPojoLogin.getObjProfile().get(0).get("child_id"));
                                 tvName.setText(parentPojoLogin.getObjProfile().get(0).get("name"));
+                                tvSchoolId.setText(parentPojoLogin.getObjProfile().get(0).get("school_id"));
+                                tvClass.setText(parentPojoLogin.getObjProfile().get(0).get("class_id"));
+                                tvStatus.setText(parentPojoLogin.getObjProfile().get(0).get("status"));
+                                tvStd.setText(parentPojoLogin.getObjProfile().get(0).get("standard_id"));
                                 tvMacId.setText(parentPojoLogin.getObjProfile().get(0).get("mac_id"));
-                                tvEmail.setText(parentPojoLogin.getObjProfile().get(0).get("email"));
-                                tvAddress.setText(parentPojoLogin.getObjProfile().get(0).get("address"));
-                                tvPhone.setText(parentPojoLogin.getObjProfile().get(0).get("phone"));
-                                tvRelation.setText(parentPojoLogin.getObjProfile().get(0).get("relation"));
-                                tvUName.setText(parentPojoLogin.getObjProfile().get(0).get("username"));
-                                tvPwd.setText(parentPojoLogin.getObjProfile().get(0).get("password"));
+
                                 tvStatus.setText(parentPojoLogin.getObjProfile().get(0).get("status"));
                             } catch (Exception e) {
                                 Log.e("exception",""+e);
@@ -205,12 +204,12 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
 
                     }
 
-                    showToast("Invalid username or Password");
+
                     progressDialog.dismiss();
                 }
 
                 @Override
-                public void onFailure(Call<ParentPojoLogin> call, Throwable t) {
+                public void onFailure(Call<ParentPojoGetStudProfile> call, Throwable t) {
 
                     Log.e("Throwabe ", "" + t);
                     progressDialog.dismiss();
@@ -220,7 +219,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
 
     public void showToast(String msg)
     {
-        Toast.makeText(ProfileActivity.this,msg,Toast.LENGTH_SHORT).show();
+        Toast.makeText(StudDetailActivity.this,msg,Toast.LENGTH_SHORT).show();
     }
 
 }

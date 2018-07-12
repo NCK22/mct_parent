@@ -16,6 +16,7 @@ import com.nyasa.mctparent.Pojo.ParentPojoLogin;
 import com.nyasa.mctparent.R;
 import com.nyasa.mctparent.Storage.SPProfile;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import retrofit2.Call;
@@ -85,17 +86,26 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                             spProfile.setIsLogin("true");
                             JSONObject jsonObject=new JSONObject(parentPojoLogin.getObjProfile().get(0));
-                           // Log.e("json response",""+jsonObject);
+                            spProfile.setIsLogin("true");
+                            try {
+                                Log.e("parent_id",jsonObject.getString("parent_id"));
+                                spProfile.setParent_id(jsonObject.getString("parent_id"));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            // Log.e("json response",""+jsonObject);
                             Intent inent=new Intent(LoginActivity.this,TabViewHomeActivity.class);
                             inent.putExtra("response", String.valueOf(jsonObject));
                             startActivity(inent);
                             finish();
                         }
 
+                        else
+                            showToast("Invalid username or Password");
 
                     }
 
-                   showToast("Invalid username or Password");
+
                     progressDialog.dismiss();
                 }
 

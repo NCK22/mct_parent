@@ -34,6 +34,11 @@ public class SPProfile {
 
         return preferences.getString("user_id", "");
     }
+    public String getParent_id() {
+
+        return preferences.getString("parent_id", "");
+    }
+
 
     public String getReligion() {
       //  preferences = this.getSharedPreferences(prefName, 0);
@@ -107,6 +112,13 @@ public class SPProfile {
         // preferences = this.getSharedPreferences(prefName, 0);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("user_id", user_id);
+        editor.apply();
+    }
+
+    public void setParent_id(String parent_id) {
+        // preferences = this.getSharedPreferences(prefName, 0);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("parent_id", parent_id);
         editor.apply();
     }
 
