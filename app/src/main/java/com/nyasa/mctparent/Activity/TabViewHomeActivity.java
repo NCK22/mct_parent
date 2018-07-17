@@ -1,14 +1,17 @@
 package com.nyasa.mctparent.Activity;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -139,7 +142,52 @@ public class TabViewHomeActivity extends AppCompatActivity implements TabLayout.
        //if(spCustProfile.getProfilePhotoPath().equalsIgnoreCase(""))
            //getProfile();
 
+
+        if (ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("This app needs location access");
+            builder.setMessage("Please grant location access so this app can detect peripherals.");
+            builder.setPositiveButton(android.R.string.ok, null);
+            builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    ActivityCompat.requestPermissions(TabViewHomeActivity.this,new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+                }
+            });
+            builder.show();
+        }
+
+
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case 1: {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    System.out.println("coarse location permission granted");
+
+
+                } else {
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setTitle("Functionality limited");
+                    builder.setMessage("Since location access has not been granted, this app will not be able to discover beacons when in the background.");
+                    builder.setPositiveButton(android.R.string.ok, null);
+                    builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                        }
+
+                    });
+                    builder.show();
+                }
+                return;
+            }
+        }
+    }
+
 
     @Override
     public void onTabSelected(TabLayout.Tab tab) {

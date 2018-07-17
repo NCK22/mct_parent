@@ -3,16 +3,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.nyasa.mctparent">
 
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
-    
+    <permission
+        android:name="com.javapapers.android.androidlocationmaps.permission.MAPS_RECEIVE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="com.javapapers.android.androidlocationmaps.permission.MAPS_RECEIVE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
-        tools:replace="android:allowBackup"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:replace="android:allowBackup">
         <activity android:name=".Activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,11 +32,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.ProfileActivity"></activity>
-        <activity android:name=".Activity.TabViewHomeActivity"/>
-        <activity android:name=".Activity.LoginActivity"/>
-        <activity android:name=".Activity.StudentListActivity"/>
-        <activity android:name=".Activity.StudDetailActivity"/>
+        <activity android:name=".Activity.ProfileActivity" />
+        <activity android:name=".Activity.TabViewHomeActivity" />
+        <activity android:name=".Activity.LoginActivity" />
+        <activity android:name=".Activity.StudentListActivity" />
+        <activity android:name=".Activity.StudDetailActivity" />
+        <activity android:name=".Activity.MapsMarkerActivity"/>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAbRiXHRj83vujvSMyWL0C3pQArdABJzxs" />
+
+
     </application>
 
 </manifest>

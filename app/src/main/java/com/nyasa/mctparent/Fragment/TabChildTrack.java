@@ -1,6 +1,7 @@
 package com.nyasa.mctparent.Fragment;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -26,9 +27,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.nyasa.mctparent.Activity.MapsMarkerActivity;
+
 import com.nyasa.mctparent.R;
 import com.nyasa.mctparent.Storage.SPProfile;
-
 import org.json.JSONArray;
 
 import java.util.ArrayList;
@@ -64,6 +66,7 @@ public class TabChildTrack extends Fragment {
     LinearLayout ll_search_info;
     boolean flagAllValid=false;
     SPProfile spCustProfile;
+    Button btnTrack;
 
     @Nullable
     @Override
@@ -71,6 +74,13 @@ public class TabChildTrack extends Fragment {
 
         View rootView=inflater.inflate(R.layout.tab_child_track,container,false);
 
+        btnTrack=(Button)rootView.findViewById(R.id.btn_track);
+        btnTrack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), MapsMarkerActivity.class));
+            }
+        });
         /*Log.e("TabHome","onCreateView");
 
         spCustProfile=new SPProfile(getActivity());
