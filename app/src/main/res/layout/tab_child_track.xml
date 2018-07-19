@@ -29,13 +29,199 @@
                android:layout_marginBottom="20dp"
                android:background="@drawable/border_home_tab">
 
-               <SeekBar
+              <!-- <SeekBar
                    android:layout_width="match_parent"
                    android:layout_height="wrap_content"
                    android:progressBackgroundTintMode="add"
                    android:progress="50"
                 android:secondaryProgress="70"
-                   android:padding="10dp"/>
+                   android:padding="10dp"/>-->
+
+
+                   <FrameLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content">
+
+                       <LinearLayout
+                           android:layout_width="match_parent"
+                           android:layout_height="match_parent">
+
+                           <View
+                               android:layout_width="match_parent"
+                               android:layout_height="2dp"
+                               android:background="#000000"
+                               android:layout_gravity="center_vertical"
+                               />
+                       </LinearLayout>
+
+
+                       <LinearLayout
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:orientation="horizontal"
+                           android:weightSum="5">
+
+                           <LinearLayout
+                               android:layout_width="0dp"
+                               android:layout_height="wrap_content"
+                               android:layout_weight="1"
+                               android:orientation="vertical"
+                               android:weightSum="3">
+                               <TextView
+                                   android:layout_width="match_parent"
+                                   android:layout_height="0dp"
+                                   android:layout_weight="1"
+                                   android:text="Home"
+                                   android:gravity="center"
+                                   android:textStyle="bold"
+                                   android:textSize="13sp" />
+                               <ImageView
+                                   android:id="@+id/img_cHome"
+                                   android:layout_width="match_parent"
+                                   android:layout_height="0dp"
+                                   android:layout_weight="1"
+                                   android:src="@drawable/ic_filled_circle"/>
+
+                               <TextView
+                                   android:id="@+id/tv_tHome"
+                                   android:layout_width="match_parent"
+                                   android:layout_height="0dp"
+                                   android:layout_weight="1"
+                                   android:gravity="center"
+                                   android:text="8AM"
+                                   android:textSize="12sp" />
+                           </LinearLayout>
+
+                           <LinearLayout
+                               android:layout_width="0dp"
+                               android:layout_height="wrap_content"
+                               android:layout_weight="1"
+                               android:orientation="vertical"
+                               android:weightSum="3">
+                               <TextView
+                                   android:layout_width="match_parent"
+                                   android:layout_height="0dp"
+                                   android:layout_weight="1"
+                                   android:text="Driver"
+                                   android:gravity="center"
+                                   android:textStyle="bold"
+                                   android:textSize="13sp" />
+                               <ImageView
+                                   android:id="@+id/img_cDriver"
+                                   android:layout_width="match_parent"
+                                   android:layout_height="0dp"
+                                   android:layout_weight="1"
+                                   android:src="@drawable/ic_filled_circle"/>
+
+                               <TextView
+                                   android:id="@+id/tv_tDriver"
+                                   android:layout_width="match_parent"
+                                   android:layout_height="0dp"
+                                   android:layout_weight="1"
+                                   android:gravity="center"
+                                   android:text="8AM"
+                                   android:textSize="12sp" />
+                           </LinearLayout>
+
+                           <LinearLayout
+                               android:layout_width="0dp"
+                               android:layout_height="wrap_content"
+                               android:layout_weight="1"
+                               android:orientation="vertical"
+                               android:weightSum="3">
+                               <TextView
+                                   android:layout_width="match_parent"
+                                   android:layout_height="0dp"
+                                   android:layout_weight="1"
+                                   android:text="Teacher"
+                                   android:gravity="center"
+                                   android:textStyle="bold"
+                                   android:textSize="13sp" />
+                               <ImageView
+                                   android:id="@+id/img_cTeacher"
+                                   android:layout_width="match_parent"
+                                   android:layout_height="0dp"
+                                   android:layout_weight="1"
+                                   android:src="@drawable/ic_filled_circle"/>
+
+                               <TextView
+                                   android:id="@+id/tv_tTeacher"
+                                   android:layout_width="match_parent"
+                                   android:layout_height="0dp"
+                                   android:layout_weight="1"
+                                   android:gravity="center"
+                                   android:text="8AM"
+                                   android:textSize="12sp" />
+                           </LinearLayout>
+
+                           <LinearLayout
+                               android:layout_width="0dp"
+                               android:layout_height="wrap_content"
+                               android:layout_weight="1"
+                               android:orientation="vertical"
+                               android:weightSum="3">
+                               <TextView
+                                   android:layout_width="match_parent"
+                                   android:layout_height="0dp"
+                                   android:layout_weight="1"
+                                   android:text="Driver"
+                                   android:gravity="center"
+                                   android:textStyle="bold"
+                                   android:textSize="13sp" />
+                               <ImageView
+                                   android:id="@+id/img_cDriver2"
+                                   android:layout_width="match_parent"
+                                   android:layout_height="0dp"
+                                   android:layout_weight="1"
+                                   android:src="@drawable/ic_empty_circle"/>
+
+                               <TextView
+                                   android:id="@+id/tv_tDriver2"
+                                   android:layout_width="match_parent"
+                                   android:layout_height="0dp"
+                                   android:layout_weight="1"
+                                   android:gravity="center"
+                                   android:text="8AM"
+                                   android:textSize="12sp" />
+                           </LinearLayout>
+
+                           <LinearLayout
+                               android:layout_width="0dp"
+                               android:layout_height="wrap_content"
+                               android:layout_weight="1"
+                               android:orientation="vertical"
+                               android:weightSum="3">
+                               <TextView
+                                   android:layout_width="match_parent"
+                                   android:layout_height="0dp"
+                                   android:layout_weight="1"
+                                   android:text="Home"
+                                   android:gravity="center"
+                                   android:textStyle="bold"
+                                   android:textSize="13sp" />
+                               <ImageView
+                                   android:id="@+id/img_cHome2"
+                                   android:layout_width="match_parent"
+                                   android:layout_height="0dp"
+                                   android:layout_weight="1"
+                                   android:src="@drawable/ic_empty_circle"/>
+
+                               <TextView
+                                   android:id="@+id/tv_tHome2"
+                                   android:layout_width="match_parent"
+                                   android:layout_height="0dp"
+                                   android:layout_weight="1"
+                                   android:gravity="center"
+                                   android:text="8AM"
+                                   android:textSize="12sp" />
+                           </LinearLayout>
+                       </LinearLayout>
+
+                   </FrameLayout>
+
+
+
+
 
            <!--<TextView
                android:id="@+id/tv_child_last_reach"

@@ -106,9 +106,6 @@ public class TabViewHomeActivity extends AppCompatActivity implements TabLayout.
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
-
-
-
         for (int i = 0; i < noOfTabs; i++) {
             Log.e("tab",""+i);
             tabLayout.addTab(tabLayout.newTab().setText("Child " + String.valueOf(i + 1)));
@@ -157,12 +154,10 @@ public class TabViewHomeActivity extends AppCompatActivity implements TabLayout.
             builder.show();
         }
 
-
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode,String permissions[], int[] grantResults) {
         switch (requestCode) {
             case 1: {
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {

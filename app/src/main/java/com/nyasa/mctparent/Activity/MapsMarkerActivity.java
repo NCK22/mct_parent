@@ -1,6 +1,7 @@
 package com.nyasa.mctparent.Activity;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -28,10 +29,21 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.ui.IconGenerator;
+import com.nyasa.mctparent.APIClient;
+import com.nyasa.mctparent.Interface.getChildListInterface;
+import com.nyasa.mctparent.Interface.getDriverLocInterface;
+import com.nyasa.mctparent.Pojo.ChildPojoLocation;
+import com.nyasa.mctparent.Pojo.ParentPojoLocation;
 import com.nyasa.mctparent.R;
+import com.nyasa.mctparent.Storage.SPProfile;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MapsMarkerActivity extends FragmentActivity implements
         LocationListener,
@@ -49,6 +61,9 @@ public class MapsMarkerActivity extends FragmentActivity implements
     String mLastUpdateTime;
     GoogleMap googleMap;
     MapView mapView;
+    ProgressDialog progressDialog;
+    SPProfile spCustProfile;
+    ArrayList<ChildPojoLocation> mListItem=new ArrayList<ChildPojoLocation>();
 
     protected void createLocationRequest() {
         mLocationRequest = new LocationRequest();
@@ -60,6 +75,11 @@ public class MapsMarkerActivity extends FragmentActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        progressDialog=new ProgressDialog(this);
+        progressDialog.setTitle("Please wait");
+        spCustProfile=new SPProfile(this);
+
         Log.d(TAG, "onCreate ...............................");
         //show error dialog if GoolglePlayServices not available
         if (!isGooglePlayServicesAvailable()) {
@@ -114,7 +134,8 @@ public class MapsMarkerActivity extends FragmentActivity implements
     @Override
     public void onConnected(Bundle bundle) {
         Log.d(TAG, "onConnected - isConnected ...............: " + mGoogleApiClient.isConnected());
-        startLocationUpdates();
+      //  addMarker();
+       // startLocationUpdates();
     }
 
     protected void startLocationUpdates() {
@@ -148,10 +169,10 @@ public class MapsMarkerActivity extends FragmentActivity implements
         Log.d(TAG, "Firing onLocationChanged..............................................");
         mCurrentLocation = location;
         mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
-        addMarker();
+        //addMarker();
     }
 
-    private void addMarker() {
+    private void addMarker(String lat,String lng) {
 
         MarkerOptions options = new MarkerOptions();
         // following four lines requires 'Google Maps Android API Utility Library'
@@ -162,7 +183,8 @@ public class MapsMarkerActivity extends FragmentActivity implements
         iconFactory.setStyle(IconGenerator.STYLE_PURPLE);
         options.icon(BitmapDescriptorFactory.fromBitmap(iconFactory.makeIcon(mLastUpdateTime)));
         options.anchor(iconFactory.getAnchorU(), iconFactory.getAnchorV());
-        LatLng currentLatLng = new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
+        //LatLng currentLatLng = new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
+        LatLng currentLatLng = new LatLng(Double.parseDouble(lat), Double.parseDouble(lng));
         options.position(currentLatLng);
         Marker mapMarker = googleMap.addMarker(options);
         long atTime = mCurrentLocation.getTime();
@@ -190,14 +212,66 @@ public class MapsMarkerActivity extends FragmentActivity implements
     public void onResume() {
         super.onResume();
         if (mGoogleApiClient.isConnected()) {
-            startLocationUpdates();
+           // startLocationUpdates();
+           // addMarker();
             Log.d(TAG, "Location update resumed .....................");
+
+            getLocation();
         }
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         googleMap = googleMap;
+    }
+
+    public void getLocation(){
+
+        progressDialog.show();
+
+
+        getDriverLocInterface getResponse = APIClient.getClient().create(getDriverLocInterface.class);
+        Call<ParentPojoLocation> call = getResponse.doGetListResources("1");
+        call.enqueue(new Callback<ParentPojoLocation>() {
+            @Override
+            public void onResponse(Call<ParentPojoLocation> call, Response<ParentPojoLocation> response) {
+
+                Log.e("Inside","onResponse");
+                // Log.e("response body",response.body().getStatus());
+                //Log.e("response body",response.body().getMsg());
+                ParentPojoLocation parentPojoLocation =response.body();
+                if(parentPojoLocation !=null){
+                    if(parentPojoLocation.getStatus().equalsIgnoreCase("true")){
+                        mListItem=parentPojoLocation.getObjProfile();
+                        //  noOfTabs=list_child.size();
+                        Log.e("Response","Success");
+
+                        if(mListItem.size()>0){
+                            for(int i=0;i<mListItem.size();i++)
+                            addMarker(mListItem.get(i).getLatitude(),mListItem.get(i).getLongitude());
+                        }
+
+
+
+                        //      Log.e("objsize", ""+ parentPojoProfile.getObjProfile().size());
+
+                        //setHeader();
+
+                    }
+                }
+                else
+                    Log.e("parentpojotabwhome","null");
+                progressDialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<ParentPojoLocation> call, Throwable t) {
+
+                Log.e("throwable",""+t);
+                progressDialog.dismiss();
+            }
+        });
+
     }
 
 }
