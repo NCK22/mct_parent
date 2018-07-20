@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
@@ -29,6 +30,7 @@ import android.widget.Toast;
 
 import com.nyasa.mctparent.Activity.MapsMarkerActivity;
 
+import com.nyasa.mctparent.Activity.ScanActivity;
 import com.nyasa.mctparent.R;
 import com.nyasa.mctparent.Storage.SPProfile;
 import org.json.JSONArray;
@@ -66,7 +68,9 @@ public class TabChildTrack extends Fragment {
     LinearLayout ll_search_info;
     boolean flagAllValid=false;
     SPProfile spCustProfile;
-    Button btnTrack;
+    public static Button btnTrack;
+    String position="";
+    ImageView imgHomeFrom;
 
     @Nullable
     @Override
@@ -74,6 +78,9 @@ public class TabChildTrack extends Fragment {
 
         View rootView=inflater.inflate(R.layout.tab_child_track,container,false);
 
+Log.e("positionFrag",getArguments().getString("position"));
+
+        imgHomeFrom=(ImageView)rootView.findViewById(R.id.img_cHome);
         btnTrack=(Button)rootView.findViewById(R.id.btn_track);
         btnTrack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,6 +88,14 @@ public class TabChildTrack extends Fragment {
                 startActivity(new Intent(getActivity(), MapsMarkerActivity.class));
             }
         });
+
+        if(ScanActivity.mListItem!=null&&!position.equalsIgnoreCase("")) {
+            if (ScanActivity.mListItem.get(Integer.parseInt(position)).getFound().equalsIgnoreCase("false"))
+                imgHomeFrom.setImageResource(R.drawable.ic_filled_circle);
+        }
+        //Log.e("title", );
+    /*    if(getArguments().getString("status").equalsIgnoreCase("inactive"))
+            btnTrack.setEnabled(false);*/
         /*Log.e("TabHome","onCreateView");
 
         spCustProfile=new SPProfile(getActivity());

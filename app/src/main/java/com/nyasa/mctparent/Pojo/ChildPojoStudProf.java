@@ -31,9 +31,18 @@ public class ChildPojoStudProf {
     @SerializedName("mac_id")
     String mac_id;
 
-    @SerializedName("stauts")
-    String stauts;
+    @SerializedName("status")
+    String status;
 
+    String found="false";
+
+    public String getFound() {
+        return found;
+    }
+
+    public void setFound(String found) {
+        this.found = found;
+    }
 
     public String getChild_id() {
         return child_id;
@@ -71,8 +80,8 @@ public class ChildPojoStudProf {
         return standard_id;
     }
 
-    public String getStauts() {
-        return stauts;
+    public String getStatus() {
+        return status;
     }
 
     public void setChild_id(String child_id) {
@@ -111,7 +120,7 @@ public class ChildPojoStudProf {
         this.mac_id = mac_id;
     }
 
-    public void setStauts(String stauts) {
-        this.stauts = stauts;
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

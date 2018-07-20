@@ -16,4 +16,5 @@
     <string name="menu_setting">Settings</string>
     <string name="exit_msg">Do you really want to Exit?</string>
     <string name="menu_stud_profile">Student Profile</string>
+    <string name="menu_scan">Scan Students</string>
 </resources>

@@ -23,6 +23,12 @@
             android:title="@string/menu_stud_profile" />
 
         <item
+            android:id="@+id/menu_go_scan"
+            android:checked="true"
+            android:icon="@drawable/ic_launcher_foreground"
+            android:title="@string/menu_scan" />
+
+        <item
             android:id="@+id/menu_go_logout"
             android:checked="true"
             android:icon="@drawable/ic_launcher_foreground"

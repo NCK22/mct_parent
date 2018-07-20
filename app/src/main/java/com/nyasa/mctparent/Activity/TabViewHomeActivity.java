@@ -24,6 +24,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 
@@ -42,6 +43,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.nyasa.mctparent.R.id.btn_track;
+
 public class TabViewHomeActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener, NavigationView.OnNavigationItemSelectedListener, BottomNavigationView.OnNavigationItemSelectedListener {
 
     private TabViewHomeActivity.SectionsPagerAdapter mSectionsPagerAdapter;
@@ -58,13 +61,14 @@ public class TabViewHomeActivity extends AppCompatActivity implements TabLayout.
     TabLayout tabLayout;
     SPProfile spCustProfile;
     ProgressDialog progressDialog;
-    ArrayList<ChildPojoStudProf> list_child=new ArrayList<ChildPojoStudProf>();
+    public static ArrayList<ChildPojoStudProf> list_child=new ArrayList<ChildPojoStudProf>();
 
 
     Intent intent;
     Bundle bundle;
     String tabFlag="home";
     int noOfTabs=1;
+    Button btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,20 +87,16 @@ public class TabViewHomeActivity extends AppCompatActivity implements TabLayout.
 
         tabLayout=(TabLayout)findViewById(R.id.tl_parent);
         tabLayout.addOnTabSelectedListener(this);
-        tabLayout.setTabTextColors(Color.BLACK,Color.WHITE);
+        tabLayout.setTabTextColors(Color.BLACK,Color.BLACK);
 
 
         intent=getIntent();
 
         bundle = new Bundle();
         tabFlag=intent.getStringExtra("tabFlag");
-
         getStudentList();
 
         //   Tabs Activity
-
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tl_parent);
-
 
        /* mSectionsPagerAdapter = new TabViewHomeActivity.SectionsPagerAdapter(getSupportFragmentManager(),noOfTabs);
         // Set up the ViewPager with the sections adapter.
@@ -188,6 +188,11 @@ public class TabViewHomeActivity extends AppCompatActivity implements TabLayout.
     public void onTabSelected(TabLayout.Tab tab) {
 
 
+     /*   Log.e("title", String.valueOf(tab.getText()));
+        if(list_child.get(tab.getPosition()).getStatus().equalsIgnoreCase("0"))
+        btn=tab.getCustomView().findViewById(btn_track);
+        btn.setEnabled(false);*/
+
     }
 
     @Override
@@ -220,6 +225,11 @@ public class TabViewHomeActivity extends AppCompatActivity implements TabLayout.
 
             case R.id.menu_go_logout:
                 logout();
+                return true;
+
+            case R.id.menu_go_scan:
+                startActivity(new Intent(getApplicationContext(),ScanActivity.class).putExtra("tabFlag","profile"));
+                finish();
                 return true;
 
 
@@ -255,6 +265,13 @@ public class TabViewHomeActivity extends AppCompatActivity implements TabLayout.
             for (int i = 0; i <= mNumOfTabs ; i++) {
                 if (i == position) {
                     fragment = new TabChildTrack();
+                    Bundle bundle=new Bundle();
+                /*    if(list_child.get(i).getStatus().equalsIgnoreCase("0"))
+                        bundle.putString("status","inactive");
+                    else
+                        bundle.putString("status","active");*/
+                    bundle.putString("position", String.valueOf(position));
+                    fragment.setArguments(bundle);
                     return fragment;
                 }
             }
@@ -351,13 +368,12 @@ public class TabViewHomeActivity extends AppCompatActivity implements TabLayout.
                         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
 
-
-
                         for (int i = 0; i < noOfTabs; i++) {
                             Log.e("tab",""+i);
-                            tabLayout.addTab(tabLayout.newTab().setText("Child " + String.valueOf(i + 1)));
-                        }
+//                                tabLayout.addTab(tabLayout.newTab().setText("Child " + String.valueOf(i + 1)));
+                            tabLayout.addTab(tabLayout.newTab().setText(list_child.get(i).getName()));
 
+                        }
 
 
                         //      Log.e("objsize", ""+ parentPojoProfile.getObjProfile().size());
@@ -437,7 +453,6 @@ public class TabViewHomeActivity extends AppCompatActivity implements TabLayout.
         //super.onBackPressed();
         exitApp();
     }
-
 
 }
 

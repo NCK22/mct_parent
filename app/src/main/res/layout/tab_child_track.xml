@@ -15,6 +15,7 @@
         android:layout_marginEnd="5dp">
 
 
+
        <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -67,6 +68,7 @@
                                android:layout_weight="1"
                                android:orientation="vertical"
                                android:weightSum="3">
+
                                <TextView
                                    android:layout_width="match_parent"
                                    android:layout_height="0dp"
@@ -80,7 +82,7 @@
                                    android:layout_width="match_parent"
                                    android:layout_height="0dp"
                                    android:layout_weight="1"
-                                   android:src="@drawable/ic_filled_circle"/>
+                                   android:src="@drawable/ic_empty_circle"/>
 
                                <TextView
                                    android:id="@+id/tv_tHome"
@@ -111,7 +113,7 @@
                                    android:layout_width="match_parent"
                                    android:layout_height="0dp"
                                    android:layout_weight="1"
-                                   android:src="@drawable/ic_filled_circle"/>
+                                   android:src="@drawable/ic_empty_circle"/>
 
                                <TextView
                                    android:id="@+id/tv_tDriver"
@@ -142,7 +144,7 @@
                                    android:layout_width="match_parent"
                                    android:layout_height="0dp"
                                    android:layout_weight="1"
-                                   android:src="@drawable/ic_filled_circle"/>
+                                   android:src="@drawable/ic_empty_circle"/>
 
                                <TextView
                                    android:id="@+id/tv_tTeacher"

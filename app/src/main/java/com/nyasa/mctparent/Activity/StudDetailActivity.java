@@ -127,6 +127,11 @@ public class StudDetailActivity extends AppCompatActivity implements NavigationV
                 logout();
                 return true;
 
+            case R.id.menu_go_scan:
+                startActivity(new Intent(getApplicationContext(),ScanActivity.class).putExtra("tabFlag","profile"));
+                finish();
+                return true;
+
             case R.id.menu_go_stud_prof:
                 startActivity(new Intent(getApplicationContext(),StudentListActivity.class).putExtra("tabFlag","profile"));
                 finish();

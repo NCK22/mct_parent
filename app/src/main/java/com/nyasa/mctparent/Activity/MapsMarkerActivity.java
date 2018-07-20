@@ -91,7 +91,8 @@ public class MapsMarkerActivity extends FragmentActivity implements
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .build();
-
+                this.mGoogleApiClient.connect();
+        Log.e("After googleapiclient", String.valueOf(mGoogleApiClient.isConnected()));
         setContentView(R.layout.activity_maps_marker);
        /* SupportMapFragment fm = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -110,7 +111,7 @@ public class MapsMarkerActivity extends FragmentActivity implements
     public void onStart() {
         super.onStart();
         Log.d(TAG, "onStart fired ..............");
-        mGoogleApiClient.connect();
+      //  mGoogleApiClient.connect();
     }
 
     @Override
@@ -187,12 +188,12 @@ public class MapsMarkerActivity extends FragmentActivity implements
         LatLng currentLatLng = new LatLng(Double.parseDouble(lat), Double.parseDouble(lng));
         options.position(currentLatLng);
         Marker mapMarker = googleMap.addMarker(options);
-        long atTime = mCurrentLocation.getTime();
-        mLastUpdateTime = DateFormat.getTimeInstance().format(new Date(atTime));
-        mapMarker.setTitle(mLastUpdateTime);
+       /* long atTime = mCurrentLocation.getTime();
+        mLastUpdateTime = DateFormat.getTimeInstance().format(new Date(atTime));*/
+        mapMarker.setTitle(String.valueOf(currentLatLng));
         Log.d(TAG, "Marker added.............................");
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng,
-                13));
+                15));
         Log.d(TAG, "Zoom done.............................");
     }
 
@@ -216,19 +217,23 @@ public class MapsMarkerActivity extends FragmentActivity implements
            // addMarker();
             Log.d(TAG, "Location update resumed .....................");
 
-            getLocation();
+
         }
+
+
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        googleMap = googleMap;
+        this.googleMap = googleMap;
+        getLocation();
     }
+
 
     public void getLocation(){
 
         progressDialog.show();
-
+Log.e("inside","getLocation");
 
         getDriverLocInterface getResponse = APIClient.getClient().create(getDriverLocInterface.class);
         Call<ParentPojoLocation> call = getResponse.doGetListResources("1");
@@ -236,7 +241,7 @@ public class MapsMarkerActivity extends FragmentActivity implements
             @Override
             public void onResponse(Call<ParentPojoLocation> call, Response<ParentPojoLocation> response) {
 
-                Log.e("Inside","onResponse");
+                Log.e("Inside","onResponseGetLocation");
                 // Log.e("response body",response.body().getStatus());
                 //Log.e("response body",response.body().getMsg());
                 ParentPojoLocation parentPojoLocation =response.body();
@@ -246,12 +251,14 @@ public class MapsMarkerActivity extends FragmentActivity implements
                         //  noOfTabs=list_child.size();
                         Log.e("Response","Success");
 
-                        if(mListItem.size()>0){
+                        addMarker(mListItem.get(mListItem.size()-1).getLatitude(),mListItem.get(mListItem.size()-1).getLongitude());
+
+                        //addMarker(mListItem.get(2210).getLatitude(),mListItem.get(2210).getLongitude());
+
+                        /*if(mListItem.size()>0){
                             for(int i=0;i<mListItem.size();i++)
-                            addMarker(mListItem.get(i).getLatitude(),mListItem.get(i).getLongitude());
-                        }
-
-
+                            addMarker(mListItem.get(0).getLatitude(),mListItem.get(0).getLongitude());
+                        }*/
 
                         //      Log.e("objsize", ""+ parentPojoProfile.getObjProfile().size());
 
