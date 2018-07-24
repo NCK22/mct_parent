@@ -29,10 +29,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nyasa.mctparent.APIClient;
 import com.nyasa.mctparent.Interface.getChildListInterface;
+import com.nyasa.mctparent.Interface.setScannedByInterface;
 import com.nyasa.mctparent.Pojo.ChildPojoStudProf;
+import com.nyasa.mctparent.Pojo.CommonParentPojo;
 import com.nyasa.mctparent.Pojo.ParentPojoStudProf;
 import com.nyasa.mctparent.R;
 import com.nyasa.mctparent.Storage.SPProfile;
@@ -283,7 +286,10 @@ public class ScanActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void run() {
 
+                if(btScanner!=null)
                 btScanner.startScan(leScanCallback);
+                else
+                    Toast.makeText(ScanActivity.this, "Please try again", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -300,12 +306,12 @@ public class ScanActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-      /*  for(int i=0;i<mListItem.size();i++)
+        for(int i=0;i<mListItem.size();i++)
         {
             if(mListItem.get(i).getFound().equalsIgnoreCase("true"))
-                setChildStatusActive(mListItem.get(i).getChild_id(),mListItem.get(i).getChildMacID());
+                //  setChildStatusActive(mListItem.get(i).getChild_id(),mListItem.get(i).getChildMacID());
+                setScannedBy(mListItem.get(i).getMac_id());
         }
-*/
     }
 
     @Override
@@ -383,6 +389,49 @@ public class ScanActivity extends AppCompatActivity implements NavigationView.On
 
             @Override
             public void onFailure(Call<ParentPojoStudProf> call, Throwable t) {
+
+                Log.e("throwable",""+t);
+                progressDialog.dismiss();
+            }
+        });
+
+    }
+
+    public void setScannedBy(String child_mac_id){
+
+        progressDialog.show();
+
+
+        setScannedByInterface getResponse = APIClient.getClient().create(setScannedByInterface.class);
+        Call<CommonParentPojo> call = getResponse.doGetListResources(child_mac_id,spCustProfile.getParent_id(),"parent");
+        call.enqueue(new Callback<CommonParentPojo>() {
+            @Override
+            public void onResponse(Call<CommonParentPojo> call, Response<CommonParentPojo> response) {
+
+                Log.e("Inside","onResponse");
+                // Log.e("response body",response.body().getStatus());
+                //Log.e("response body",response.body().getMsg());
+                CommonParentPojo CommonParentPojo =response.body();
+                if(CommonParentPojo !=null){
+                    if(CommonParentPojo.getStatus().equalsIgnoreCase("true")){
+
+                        Log.e("Response","Success");
+
+
+
+                        //      Log.e("objsize", ""+ parentPojoProfile.getObjProfile().size());
+
+                        //setHeader();
+
+                    }
+                }
+                else
+                    Log.e("parentpojotabwhome","null");
+                progressDialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<CommonParentPojo> call, Throwable t) {
 
                 Log.e("throwable",""+t);
                 progressDialog.dismiss();

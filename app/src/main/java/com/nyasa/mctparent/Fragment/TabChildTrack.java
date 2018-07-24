@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -28,9 +30,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.nyasa.mctparent.APIClient;
 import com.nyasa.mctparent.Activity.MapsMarkerActivity;
 
 import com.nyasa.mctparent.Activity.ScanActivity;
+import com.nyasa.mctparent.Activity.TabViewHomeActivity;
+import com.nyasa.mctparent.Interface.getChildListInterface;
+import com.nyasa.mctparent.Interface.getScannedChildInterface;
+import com.nyasa.mctparent.Pojo.ChildPojoScannedChild;
+import com.nyasa.mctparent.Pojo.ChildPojoStudProf;
+import com.nyasa.mctparent.Pojo.ParentPojoScannedChild;
+import com.nyasa.mctparent.Pojo.ParentPojoStudProf;
 import com.nyasa.mctparent.R;
 import com.nyasa.mctparent.Storage.SPProfile;
 import org.json.JSONArray;
@@ -56,6 +66,7 @@ public class TabChildTrack extends Fragment {
 
     JSONArray eduArray;
     ArrayList<String> list_religion=new ArrayList<String>();
+    public static ArrayList<ChildPojoScannedChild> list_child=new ArrayList<ChildPojoScannedChild>();
     private ProgressBar progressBar;
     private LinearLayout lyt_not_found;
     ProgressDialog progressDialog;
@@ -70,28 +81,50 @@ public class TabChildTrack extends Fragment {
     SPProfile spCustProfile;
     public static Button btnTrack;
     String position="";
-    ImageView imgHomeFrom;
+    ImageView imgHome1,imgHome2,imgDriver1,imgDriver2,imgTeacher;
+    TextView tvTHome1,tvTDriver1,tvTTeacher,tvTHome2,tvTDriver2,tvLastSeen;
+    String driver_id="0",teacher_id="",last_seen="0",time="",scannedBy="";
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View rootView=inflater.inflate(R.layout.tab_child_track,container,false);
+        progressDialog=new ProgressDialog(getActivity());
+        progressDialog.setMessage("Please wait");
 
 Log.e("positionFrag",getArguments().getString("position"));
 
-        imgHomeFrom=(ImageView)rootView.findViewById(R.id.img_cHome);
+Log.e("mac_id_frag",getArguments().getString("child_mac_id"));
+
+        tvTHome1=(TextView)rootView.findViewById(R.id.tv_tHome);
+        tvTHome2=(TextView)rootView.findViewById(R.id.tv_tHome2);
+        tvTDriver1=(TextView)rootView.findViewById(R.id.tv_tDriver);
+        tvTDriver2=(TextView)rootView.findViewById(R.id.tv_tDriver2);
+        tvTTeacher=(TextView)rootView.findViewById(R.id.tv_tTeacher);
+        tvLastSeen=(TextView)rootView.findViewById(R.id.tv_child_last_seen);
+        imgHome1=(ImageView)rootView.findViewById(R.id.img_cHome);
+        imgHome2=(ImageView)rootView.findViewById(R.id.img_cHome2);
+        imgDriver1=(ImageView)rootView.findViewById(R.id.img_cDriver);
+        imgDriver2=(ImageView)rootView.findViewById(R.id.img_cDriver2);
+        imgTeacher=(ImageView)rootView.findViewById(R.id.img_cTeacher);
         btnTrack=(Button)rootView.findViewById(R.id.btn_track);
         btnTrack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), MapsMarkerActivity.class));
+                Log.e("inside","onClick");
+                Log.e("driver_id",driver_id);
+                if(!driver_id.equalsIgnoreCase("0"))
+                startActivity(new Intent(getActivity(), MapsMarkerActivity.class).putExtra("driver_id",driver_id));
             }
         });
-
         if(ScanActivity.mListItem!=null&&!position.equalsIgnoreCase("")) {
-            if (ScanActivity.mListItem.get(Integer.parseInt(position)).getFound().equalsIgnoreCase("false"))
-                imgHomeFrom.setImageResource(R.drawable.ic_filled_circle);
+            if (ScanActivity.mListItem.get(Integer.parseInt(position)).getFound().equalsIgnoreCase("false")){
+
+                //imgHomeFrom.setImageResource(R.drawable.ic_filled_circle);
+            }  //
+            //
         }
         //Log.e("title", );
     /*    if(getArguments().getString("status").equalsIgnoreCase("inactive"))
@@ -154,14 +187,101 @@ Log.e("positionFrag",getArguments().getString("position"));
         progressDialog=new ProgressDialog(getActivity());
         progressDialog.setMessage("Please wait home");
 
-        getReligionList();
-       // displayData();
-        getHighlightedProf();
-        getMatches();
-*/
 
+*/
+if(!getArguments().getString("child_mac_id").equalsIgnoreCase("sample_mac_id"))
+getScannedChild(getArguments().getString("child_mac_id"));
 
         return rootView;
+
+    }
+
+    public void getScannedChild(String child_mac_id){
+
+       progressDialog.show();
+
+
+        getScannedChildInterface getResponse = APIClient.getClient().create(getScannedChildInterface.class);
+        Call<ParentPojoScannedChild> call = getResponse.doGetListResources(child_mac_id);
+        call.enqueue(new Callback<ParentPojoScannedChild>() {
+            @Override
+            public void onResponse(Call<ParentPojoScannedChild> call, Response<ParentPojoScannedChild> response) {
+
+                Log.e("Inside","onResponse");
+                // Log.e("response body",response.body().getStatus());
+                //Log.e("response body",response.body().getMsg());
+                ParentPojoScannedChild parentPojoScannedChild =response.body();
+                if(parentPojoScannedChild !=null){
+                    if(parentPojoScannedChild.getStatus().equalsIgnoreCase("true")){
+                        list_child=parentPojoScannedChild.getObjProfile();
+
+                        Log.e("Response","Success");
+
+                        for(int i=0;i<list_child.size();i++)
+                        {
+                            if(list_child.get(i).getScannedby().equalsIgnoreCase("parent"))
+                            {
+                                 time=list_child.get(i).getDateTime();
+                                scannedBy="Parent ";
+                                if(time.contains("AM")) {
+                                    imgHome1.setImageResource(R.drawable.ic_filled_circle);
+                                    tvTHome1.setText(time.substring(11, 16) + time.substring(20, 22));
+                                }
+                                else if(time.contains("PM"))
+                                {
+                                    imgHome2.setImageResource(R.drawable.ic_filled_circle);
+                                    tvTHome2.setText(time.substring(11, 16) + time.substring(20, 22));
+                                }
+
+                            }
+                            else if(list_child.get(i).getScannedby().equalsIgnoreCase("driver"))
+                            {
+                                driver_id=list_child.get(i).getScannedby_id();
+                                 time=list_child.get(i).getDateTime();
+                                scannedBy="Driver "+driver_id;
+                                if(time.contains("AM")) {
+                                    imgDriver1.setImageResource(R.drawable.ic_filled_circle);
+                                    tvTDriver1.setText(time.substring(11, 16) + time.substring(20, 22));
+                                }
+                                else if(time.contains("PM")){
+                                    imgDriver2.setImageResource(R.drawable.ic_filled_circle);
+                                    tvTDriver2.setText(time.substring(11, 16) + time.substring(20, 22));
+                                }
+                            }
+                            else if(list_child.get(i).getScannedby().equalsIgnoreCase("teacher"))
+                            {
+                                teacher_id=list_child.get(i).getScannedby_id();
+                                time=list_child.get(i).getDateTime();
+                                scannedBy="Teacher "+teacher_id;
+                                imgTeacher.setImageResource(R.drawable.ic_filled_circle);
+                                tvTTeacher.setText(time.substring(11, 16) + time.substring(20, 22));
+                            }
+                        }
+
+
+                        tvLastSeen.setText("Last seen near "+scannedBy+" At "+ time.substring(11,16)+time.substring(20,22));
+
+
+
+
+                        //      Log.e("objsize", ""+ parentPojoProfile.getObjProfile().size());
+
+                        //setHeader();
+
+                    }
+                }
+                else
+                    Log.e("parentpojotabwhome","null");
+               progressDialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<ParentPojoScannedChild> call, Throwable t) {
+
+                Log.e("throwable",""+t);
+                progressDialog.dismiss();
+            }
+        });
 
     }
    /* private void displayData() {

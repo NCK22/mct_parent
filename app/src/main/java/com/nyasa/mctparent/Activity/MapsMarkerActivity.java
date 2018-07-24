@@ -2,6 +2,7 @@ package com.nyasa.mctparent.Activity;
 
 import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -64,6 +65,7 @@ public class MapsMarkerActivity extends FragmentActivity implements
     ProgressDialog progressDialog;
     SPProfile spCustProfile;
     ArrayList<ChildPojoLocation> mListItem=new ArrayList<ChildPojoLocation>();
+    Intent intent;
 
     protected void createLocationRequest() {
         mLocationRequest = new LocationRequest();
@@ -79,6 +81,8 @@ public class MapsMarkerActivity extends FragmentActivity implements
         progressDialog=new ProgressDialog(this);
         progressDialog.setTitle("Please wait");
         spCustProfile=new SPProfile(this);
+
+       intent=getIntent();
 
         Log.d(TAG, "onCreate ...............................");
         //show error dialog if GoolglePlayServices not available
@@ -204,8 +208,8 @@ public class MapsMarkerActivity extends FragmentActivity implements
     }
 
     protected void stopLocationUpdates() {
-        LocationServices.FusedLocationApi.removeLocationUpdates(
-                mGoogleApiClient, this);
+        if(mGoogleApiClient!=null)
+        LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
         Log.d(TAG, "Location update stopped .......................");
     }
 
@@ -217,26 +221,23 @@ public class MapsMarkerActivity extends FragmentActivity implements
            // addMarker();
             Log.d(TAG, "Location update resumed .....................");
 
-
         }
-
 
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         this.googleMap = googleMap;
-        getLocation();
+        getLocation(intent.getStringExtra("driver_id"));
     }
 
-
-    public void getLocation(){
+    public void getLocation(String driver_id){
 
         progressDialog.show();
 Log.e("inside","getLocation");
 
         getDriverLocInterface getResponse = APIClient.getClient().create(getDriverLocInterface.class);
-        Call<ParentPojoLocation> call = getResponse.doGetListResources("1");
+        Call<ParentPojoLocation> call = getResponse.doGetListResources(driver_id);
         call.enqueue(new Callback<ParentPojoLocation>() {
             @Override
             public void onResponse(Call<ParentPojoLocation> call, Response<ParentPojoLocation> response) {

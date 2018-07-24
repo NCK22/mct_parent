@@ -271,6 +271,10 @@ public class TabViewHomeActivity extends AppCompatActivity implements TabLayout.
                     else
                         bundle.putString("status","active");*/
                     bundle.putString("position", String.valueOf(position));
+                    if(position<list_child.size())
+                    bundle.putString("child_mac_id",list_child.get(position).getMac_id());
+                    else
+                        bundle.putString("child_mac_id","sample_mac_id");
                     fragment.setArguments(bundle);
                     return fragment;
                 }
