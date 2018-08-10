@@ -7,7 +7,7 @@
 
     <string name="menu_home">Home</string>
     <string name="menu_matches">Matches</string>
-    <string name="menu_profile">My Profile</string>
+    <string name="menu_profile">Parent Profile</string>
 
 
     <string name="default_email">apps@dev.com</string>
