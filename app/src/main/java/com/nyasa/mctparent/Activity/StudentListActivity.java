@@ -101,7 +101,7 @@ public class StudentListActivity extends AppCompatActivity implements Navigation
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView.getMenu().clear(); //clear old inflated items.
         navigationView.inflateMenu(R.menu.menu_drawer);
-        navigationView.setCheckedItem(R.id.menu_go_profile);
+        navigationView.setCheckedItem(R.id.menu_go_stud_prof);
         navigationView.setNavigationItemSelectedListener(this);
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close) {
             @Override

@@ -117,6 +117,10 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
                 startActivity(new Intent(ProfileActivity.this, TabViewHomeActivity.class));
                 return true;
 
+            case R.id.menu_go_scan:
+                startActivity(new Intent(getApplicationContext(),ScanActivity.class).putExtra("tabFlag","profile"));
+                finish();
+                return true;
 
             case R.id.menu_go_profile:
 //                toolbar.setTitle(getString(R.string.menu_matches));
