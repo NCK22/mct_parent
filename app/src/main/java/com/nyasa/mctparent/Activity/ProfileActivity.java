@@ -32,7 +32,7 @@ import retrofit2.Response;
 
 public class ProfileActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    TextView tvParentId,tvName,tvMacId,tvEmail,tvAddress,tvPhone,tvRelation,tvUName,tvPwd,tvStatus;
+    TextView tvParentId,tvName,tvMacId,tvEmail,tvAddress,tvPhone,tvRelation,tvUName,tvPwd,tvStatus,toolbar_textView;
     Toolbar toolbar;
     DrawerLayout drawerLayout;
     private NavigationView navigationView;
@@ -43,7 +43,9 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Profile");
+        toolbar.setTitle("");
+        toolbar_textView=(TextView)findViewById(R.id.toolbar_title);
+        toolbar_textView.setText("Parent Profile");
         spProfile=new SPProfile(this);
         progressDialog=new ProgressDialog(this);
 
@@ -79,6 +81,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
 
         //  setHeader();
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.setDrawerIndicatorEnabled(false);
         actionBarDrawerToggle.syncState();
 
 
@@ -167,9 +170,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
 
     public void getProfile(){
 
-
         //checkValidity();
-
         //if(flagAllValid==true) {
             progressDialog.show();
             getProfileInterface getResponse = APIClient.getClient().create(getProfileInterface.class);
@@ -187,7 +188,6 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
                             Log.e("Response", parentPojoLogin.getStatus());
                             try {
                                 Log.e("json response 1",""+parentPojoLogin.getObjProfile().get(0).get("parent_id"));
-
                                 tvParentId.setText(parentPojoLogin.getObjProfile().get(0).get("parent_id"));
                                 tvName.setText(parentPojoLogin.getObjProfile().get(0).get("name"));
                                 tvMacId.setText(parentPojoLogin.getObjProfile().get(0).get("mac_id"));
@@ -198,6 +198,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
                                 tvUName.setText(parentPojoLogin.getObjProfile().get(0).get("username"));
                                 tvPwd.setText(parentPojoLogin.getObjProfile().get(0).get("password"));
                                 tvStatus.setText(parentPojoLogin.getObjProfile().get(0).get("status"));
+
                             } catch (Exception e) {
                                 Log.e("exception",""+e);
                                 e.printStackTrace();
@@ -209,7 +210,6 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
 
                     }
 
-                    showToast("Invalid username or Password");
                     progressDialog.dismiss();
                 }
 

@@ -65,7 +65,7 @@ public class StudentListActivity extends AppCompatActivity implements Navigation
     private LinearLayout lyt_not_found, lyt_search;
     String Id;
     SPProfile spCustProfile;
-
+    TextView toolbar_textView;
     NavigationView navigationView;
     private DrawerLayout drawerLayout;
     private FragmentManager fragmentManager;
@@ -83,6 +83,9 @@ public class StudentListActivity extends AppCompatActivity implements Navigation
         progressDialog=new ProgressDialog(this);
         progressDialog.setTitle("Please wait");
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar_textView=(TextView)findViewById(R.id.toolbar_title);
+        toolbar_textView.setText("Children List");
+        toolbar.setTitle("");
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -117,6 +120,7 @@ public class StudentListActivity extends AppCompatActivity implements Navigation
 
         //  setHeader();
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.setDrawerIndicatorEnabled(false);
         actionBarDrawerToggle.syncState();
 
 

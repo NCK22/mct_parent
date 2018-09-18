@@ -31,7 +31,7 @@ import retrofit2.Response;
 
 public class StudDetailActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    TextView tvParentId,tvName,tvMacId,tvSchoolId,tvStd,tvClass,tvStatus;
+    TextView tvParentId,tvName,tvMacId,tvSchoolId,tvStd,tvClass,tvStatus,toolbar_textView;
     Toolbar toolbar;
     DrawerLayout drawerLayout;
     private NavigationView navigationView;
@@ -43,7 +43,10 @@ public class StudDetailActivity extends AppCompatActivity implements NavigationV
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stud_detail);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Student Detail");
+        toolbar.setTitle("");
+        toolbar_textView=(TextView)findViewById(R.id.toolbar_title);
+        toolbar_textView.setText("Student Detail");
+
         spProfile=new SPProfile(this);
         progressDialog=new ProgressDialog(this);
 
@@ -77,6 +80,7 @@ public class StudDetailActivity extends AppCompatActivity implements NavigationV
 
         //  setHeader();
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.setDrawerIndicatorEnabled(false);
         actionBarDrawerToggle.syncState();
 
 

@@ -55,7 +55,7 @@ public class ScanActivity extends AppCompatActivity implements NavigationView.On
     BluetoothLeScanner btScanner;
     Button startScanningButton;
     Button stopScanningButton;
-    TextView peripheralTextView;
+    TextView peripheralTextView,toolbar_textView;
     ProgressDialog progressDialog;
     public static ArrayList<String> list_macId=new ArrayList<String>();
     public static ArrayList<ChildPojoStudProf> mListItem=new ArrayList<ChildPojoStudProf>();
@@ -123,7 +123,9 @@ public class ScanActivity extends AppCompatActivity implements NavigationView.On
         progressDialog=new ProgressDialog(this);
         progressDialog.setMessage("Please wait");
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Scan");
+        toolbar.setTitle("");
+        toolbar_textView=(TextView)findViewById(R.id.toolbar_title);
+        toolbar_textView.setText("Scan");
 
         if(list_macId!=null)
             list_macId.clear();
@@ -188,6 +190,7 @@ public class ScanActivity extends AppCompatActivity implements NavigationView.On
 
         //  setHeader();
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.setDrawerIndicatorEnabled(false);
         actionBarDrawerToggle.syncState();
 
 

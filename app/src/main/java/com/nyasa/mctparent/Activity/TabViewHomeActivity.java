@@ -76,15 +76,19 @@ public class TabViewHomeActivity extends AppCompatActivity implements TabLayout.
         setContentView(R.layout.activity_tab_view_home);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Home");
-        progressDialog=new ProgressDialog(this);
-        spCustProfile=new SPProfile(this);
+        toolbar_textView=(TextView)findViewById(R.id.toolbar_title);
+        toolbar.setTitle("");
+        toolbar_textView.setText("Home");
+     //   toolbar.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        toolbar.setNavigationIcon(null);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            getSupportActionBar().setDisplayShowHomeEnabled(false);
         }
 
+        progressDialog=new ProgressDialog(this);
+        spCustProfile=new SPProfile(this);
         tabLayout=(TabLayout)findViewById(R.id.tl_parent);
         tabLayout.addOnTabSelectedListener(this);
         tabLayout.setTabTextColors(Color.BLACK,Color.BLACK);
@@ -132,6 +136,7 @@ public class TabViewHomeActivity extends AppCompatActivity implements TabLayout.
 
         //  setHeader();
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.setDrawerIndicatorEnabled(false);
         actionBarDrawerToggle.syncState();
 
 
