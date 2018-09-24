@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -79,7 +80,7 @@ public class TabChildTrack extends Fragment {
     LinearLayout ll_search_info;
     boolean flagAllValid=false;
     SPProfile spCustProfile;
-    public static Button btnTrack;
+    public static FloatingActionButton btnTrack;
     String position="";
     ImageView imgHome1,imgHome2,imgDriver1,imgDriver2,imgTeacher;
     TextView tvTHome1,tvTDriver1,tvTTeacher,tvTHome2,tvTDriver2,tvLastSeen;
@@ -94,9 +95,9 @@ public class TabChildTrack extends Fragment {
         progressDialog=new ProgressDialog(getActivity());
         progressDialog.setMessage("Please wait");
 
-Log.e("positionFrag",getArguments().getString("position"));
+        Log.e("positionFrag",getArguments().getString("position"));
 
-Log.e("mac_id_frag",getArguments().getString("child_mac_id"));
+        Log.e("mac_id_frag",getArguments().getString("child_mac_id"));
 
         tvTHome1=(TextView)rootView.findViewById(R.id.tv_tHome);
         tvTHome2=(TextView)rootView.findViewById(R.id.tv_tHome2);
@@ -109,7 +110,8 @@ Log.e("mac_id_frag",getArguments().getString("child_mac_id"));
         imgDriver1=(ImageView)rootView.findViewById(R.id.img_cDriver);
         imgDriver2=(ImageView)rootView.findViewById(R.id.img_cDriver2);
         imgTeacher=(ImageView)rootView.findViewById(R.id.img_cTeacher);
-        btnTrack=(Button)rootView.findViewById(R.id.btn_track);
+        btnTrack=(FloatingActionButton)rootView.findViewById(R.id.btn_track);
+        btnTrack.setImageResource(R.drawable.hand);
         btnTrack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -186,7 +186,8 @@ public class MapsMarkerActivity extends FragmentActivity implements
         // you can safely comment the following four lines but for this info
         IconGenerator iconFactory = new IconGenerator(this);
         iconFactory.setStyle(IconGenerator.STYLE_PURPLE);
-        options.icon(BitmapDescriptorFactory.fromBitmap(iconFactory.makeIcon(mLastUpdateTime)));
+        //options.icon(BitmapDescriptorFactory.fromBitmap(iconFactory.makeIcon(mLastUpdateTime)));
+        options.icon(BitmapDescriptorFactory.fromResource(R.drawable.hand));
         options.anchor(iconFactory.getAnchorU(), iconFactory.getAnchorV());
         //LatLng currentLatLng = new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
         LatLng currentLatLng = new LatLng(Double.parseDouble(lat), Double.parseDouble(lng));

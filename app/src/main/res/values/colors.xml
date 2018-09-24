@@ -15,4 +15,9 @@
 
     <color name="navigation_default">#000000</color>
     <color name="navigation_checked">#F2146E</color>
+
+    <color name="orange4">#ef7f1a</color>
+    <color name="orange3">#f39314</color>
+    <color name="orange2">#f7a707</color>
+    <color name="orange1">#fbba00</color>
 </resources>

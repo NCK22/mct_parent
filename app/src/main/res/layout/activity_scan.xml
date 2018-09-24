@@ -55,9 +55,7 @@
         android:maxLines="30" />
 
         </LinearLayout>
-
     </RelativeLayout>
-
 
     <android.support.design.widget.NavigationView
         android:id="@+id/navigation_view"
