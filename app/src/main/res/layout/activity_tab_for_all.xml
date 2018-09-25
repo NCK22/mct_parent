@@ -29,7 +29,7 @@
             android:id="@+id/tl_parent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabIndicatorColor="#000000"
+            app:tabIndicatorColor="#00000000"
             app:tabBackground="@drawable/tab_color_selector"
             app:tabIndicatorHeight="3dp">
 
