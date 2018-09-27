@@ -8,6 +8,8 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
@@ -46,7 +48,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MapsMarkerActivity extends FragmentActivity implements
+public class MapsMarkerActivity extends AppCompatActivity implements
         LocationListener,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, OnMapReadyCallback {
@@ -66,6 +68,8 @@ public class MapsMarkerActivity extends FragmentActivity implements
     SPProfile spCustProfile;
     ArrayList<ChildPojoLocation> mListItem=new ArrayList<ChildPojoLocation>();
     Intent intent;
+    Toolbar toolbar;
+    TextView toolbar_textView;
 
     protected void createLocationRequest() {
         mLocationRequest = new LocationRequest();
@@ -77,6 +81,19 @@ public class MapsMarkerActivity extends FragmentActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar_textView=(TextView)findViewById(R.id.toolbar_title);
+        toolbar.setTitle("");
+        toolbar_textView.setText("Tracking");
+        //   toolbar.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        toolbar.setNavigationIcon(null);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            getSupportActionBar().setDisplayShowHomeEnabled(false);
+        }
+
 
         progressDialog=new ProgressDialog(this);
         progressDialog.setTitle("Please wait");

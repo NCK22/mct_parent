@@ -111,7 +111,7 @@ public class TabChildTrack extends Fragment {
         imgDriver2=(ImageView)rootView.findViewById(R.id.img_cDriver2);
         imgTeacher=(ImageView)rootView.findViewById(R.id.img_cTeacher);
         btnTrack=(FloatingActionButton)rootView.findViewById(R.id.btn_track);
-        btnTrack.setImageResource(R.drawable.hand);
+     //   btnTrack.setImageResource(R.drawable.hand);
         btnTrack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -119,6 +119,8 @@ public class TabChildTrack extends Fragment {
                 Log.e("driver_id",driver_id);
                 if(!driver_id.equalsIgnoreCase("0"))
                 startActivity(new Intent(getActivity(), MapsMarkerActivity.class).putExtra("driver_id",driver_id));
+                else
+                    showToast("Journey is not started");
             }
         });
         if(ScanActivity.mListItem!=null&&!position.equalsIgnoreCase("")) {

@@ -91,7 +91,7 @@ public class TabViewHomeActivity extends AppCompatActivity implements TabLayout.
         spCustProfile=new SPProfile(this);
         tabLayout=(TabLayout)findViewById(R.id.tl_parent);
         tabLayout.addOnTabSelectedListener(this);
-        tabLayout.setTabTextColors(Color.BLACK,Color.BLACK);
+        tabLayout.setTabTextColors(Color.WHITE,Color.WHITE);
 
 
         intent=getIntent();
@@ -380,7 +380,7 @@ public class TabViewHomeActivity extends AppCompatActivity implements TabLayout.
                         for (int i = 0; i < noOfTabs; i++) {
                             Log.e("tab",""+i);
 //                                tabLayout.addTab(tabLayout.newTab().setText("Child " + String.valueOf(i + 1)));
-                            tabLayout.addTab(tabLayout.newTab().setText(list_child.get(i).getName()));
+                            tabLayout.addTab(tabLayout.newTab().setText(list_child.get(i).getName().substring(0,list_child.get(i).getName().indexOf(" "))));
 
                         }
 
