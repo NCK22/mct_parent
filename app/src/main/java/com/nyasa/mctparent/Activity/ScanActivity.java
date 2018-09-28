@@ -291,8 +291,16 @@ public class ScanActivity extends AppCompatActivity implements NavigationView.On
 
                 if(btScanner!=null)
                 btScanner.startScan(leScanCallback);
-                else
-                    Toast.makeText(ScanActivity.this, "Please try again", Toast.LENGTH_SHORT).show();
+                else {
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(ScanActivity.this, "Please try again", Toast.LENGTH_SHORT).show();
+                            stopScanningButton.setVisibility(View.INVISIBLE);
+                            startScanningButton.setVisibility(View.VISIBLE);
+                        }
+                    });
+                }
+                  //  Toast.makeText(ScanActivity.this, "Please try again", Toast.LENGTH_SHORT).show();
             }
         });
     }

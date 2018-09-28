@@ -372,7 +372,7 @@ public class TabViewHomeActivity extends AppCompatActivity implements TabLayout.
                         // Set up the ViewPager with the sections adapter.
                         mViewPager = (ViewPager) findViewById(R.id.vp_parent);
                         mViewPager.setAdapter(mSectionsPagerAdapter);
-                        mViewPager.setOffscreenPageLimit(0);
+                        mViewPager.setOffscreenPageLimit(noOfTabs);
                         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
                         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 

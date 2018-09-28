@@ -84,10 +84,10 @@ public class MapsMarkerActivity extends AppCompatActivity implements
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar_textView=(TextView)findViewById(R.id.toolbar_title);
-        toolbar.setTitle("");
-        toolbar_textView.setText("Tracking");
+       // toolbar.setTitle("");
+       // toolbar_textView.setText("Tracking");
         //   toolbar.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-        toolbar.setNavigationIcon(null);
+       // toolbar.setNavigationIcon(null);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
@@ -203,8 +203,8 @@ public class MapsMarkerActivity extends AppCompatActivity implements
         // you can safely comment the following four lines but for this info
         IconGenerator iconFactory = new IconGenerator(this);
         iconFactory.setStyle(IconGenerator.STYLE_PURPLE);
-        //options.icon(BitmapDescriptorFactory.fromBitmap(iconFactory.makeIcon(mLastUpdateTime)));
-        options.icon(BitmapDescriptorFactory.fromResource(R.drawable.hand));
+        options.icon(BitmapDescriptorFactory.fromBitmap(iconFactory.makeIcon(mLastUpdateTime)));
+        //options.icon(BitmapDescriptorFactory.fromResource(R.drawable.hand));
         options.anchor(iconFactory.getAnchorU(), iconFactory.getAnchorV());
         //LatLng currentLatLng = new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
         LatLng currentLatLng = new LatLng(Double.parseDouble(lat), Double.parseDouble(lng));
@@ -226,9 +226,12 @@ public class MapsMarkerActivity extends AppCompatActivity implements
     }
 
     protected void stopLocationUpdates() {
-        if(mGoogleApiClient!=null)
-        LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
-        Log.d(TAG, "Location update stopped .......................");
+        if(mGoogleApiClient!=null) {
+            if(mGoogleApiClient.isConnected()) {
+                LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
+                Log.d(TAG, "Location update stopped .......................");
+            }
+        }
     }
 
     @Override

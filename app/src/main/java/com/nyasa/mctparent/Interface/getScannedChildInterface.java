@@ -17,7 +17,7 @@ public interface getScannedChildInterface {
 
    @FormUrlEncoded
    @POST("parents/getScannedChild/")
-   Call<ParentPojoScannedChild> doGetListResources(@Field("child_mac_id") String child_mac_id);
+   Call<ParentPojoScannedChild> doGetListResources(@Field("mac_id") String child_mac_id);
 
 
 }

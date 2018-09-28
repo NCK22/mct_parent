@@ -7,9 +7,7 @@
     android:layout_marginBottom="0dp"
     android:background="@drawable/bgmap">
 
-
-
-    <ScrollView
+        <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginEnd="0dp"
@@ -89,6 +87,7 @@
                                 android:layout_weight="1"
                                 android:gravity="center"
                                 android:text="Home"
+                                android:fontFamily="calibari"
                                 android:textSize="13sp"
                                 android:textStyle="bold"
                                 android:padding="0dp"/>
@@ -115,7 +114,8 @@
                                 android:layout_height="0dp"
                                 android:layout_weight="1"
                                 android:gravity="center"
-                                android:text="8AM"
+                                android:text=""
+                                android:fontFamily="calibari"
                                 android:textSize="12sp" />
                         </LinearLayout>
 
@@ -132,6 +132,7 @@
                                 android:layout_weight="1"
                                 android:gravity="center"
                                 android:text="Driver"
+                                android:fontFamily="calibari"
                                 android:textSize="13sp"
                                 android:textStyle="bold" />
                             <LinearLayout
@@ -154,7 +155,8 @@
                                 android:layout_height="0dp"
                                 android:layout_weight="1"
                                 android:gravity="center"
-                                android:text="8AM"
+                                android:fontFamily="calibari"
+                                android:text=""
                                 android:textSize="12sp" />
                         </LinearLayout>
 
@@ -171,6 +173,7 @@
                                 android:layout_weight="1"
                                 android:gravity="center"
                                 android:text="Teacher"
+                                android:fontFamily="calibari"
                                 android:textSize="13sp"
                                 android:textStyle="bold" />
 
@@ -194,7 +197,8 @@
                                 android:layout_height="0dp"
                                 android:layout_weight="1"
                                 android:gravity="center"
-                                android:text="8AM"
+                                android:fontFamily="calibari"
+                                android:text=""
                                 android:textSize="12sp" />
                         </LinearLayout>
 
@@ -211,6 +215,7 @@
                                 android:layout_weight="1"
                                 android:gravity="center"
                                 android:text="Driver"
+                                android:fontFamily="calibari"
                                 android:textSize="13sp"
                                 android:textStyle="bold" />
                             <LinearLayout
@@ -233,7 +238,8 @@
                                 android:layout_height="0dp"
                                 android:layout_weight="1"
                                 android:gravity="center"
-                                android:text="8AM"
+                                android:fontFamily="calibari"
+                                android:text=""
                                 android:textSize="12sp" />
                         </LinearLayout>
 
@@ -250,6 +256,7 @@
                                 android:layout_weight="1"
                                 android:gravity="center"
                                 android:text="Home"
+                                android:fontFamily="calibari"
                                 android:textSize="13sp"
                                 android:textStyle="bold" />
                             <LinearLayout
@@ -273,7 +280,8 @@
                                 android:layout_height="0dp"
                                 android:layout_weight="1"
                                 android:gravity="center"
-                                android:text="8AM"
+                                android:text=""
+                                android:fontFamily="calibari"
                                 android:textSize="12sp" />
                         </LinearLayout>
                     </LinearLayout>
@@ -314,6 +322,7 @@
                     android:gravity="center"
                     android:paddingBottom="10dp"
                     android:paddingTop="10dp"
+                    android:fontFamily="calibari"
                     android:text="Last seen near Teacher1 at 5:30pm"
                     android:textColor="@color/white"
                     android:textSize="14sp" />
