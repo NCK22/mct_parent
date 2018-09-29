@@ -24,6 +24,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -126,6 +127,18 @@ public class ScanActivity extends AppCompatActivity implements NavigationView.On
         toolbar.setTitle("");
         toolbar_textView=(TextView)findViewById(R.id.toolbar_title);
         toolbar_textView.setText("Scan");
+/*
+        findViewById(R.id.icon).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawerLayout.openDrawer(Gravity.LEFT);
+            }
+        });*/
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
 
         if(list_macId!=null)
             list_macId.clear();

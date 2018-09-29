@@ -22,6 +22,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -45,7 +46,7 @@ import retrofit2.Response;
 
 import static com.nyasa.mctparent.R.id.btn_track;
 
-public class TabViewHomeActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener, NavigationView.OnNavigationItemSelectedListener, BottomNavigationView.OnNavigationItemSelectedListener {
+public class TabViewHomeActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener, NavigationView.OnNavigationItemSelectedListener, BottomNavigationView.OnNavigationItemSelectedListener, ViewPager.OnPageChangeListener {
 
     private TabViewHomeActivity.SectionsPagerAdapter mSectionsPagerAdapter;
 
@@ -80,7 +81,13 @@ public class TabViewHomeActivity extends AppCompatActivity implements TabLayout.
         toolbar.setTitle("");
         toolbar_textView.setText("Home");
      //   toolbar.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-        toolbar.setNavigationIcon(null);
+        //toolbar.setNavigationIcon(null);
+       findViewById(R.id.icon).setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               drawerLayout.openDrawer(Gravity.LEFT);
+           }
+       });
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
@@ -247,6 +254,22 @@ public class TabViewHomeActivity extends AppCompatActivity implements TabLayout.
             return false;
     }
 
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        Log.e("called","onPageScrolled");
+        if(position>noOfTabs)
+            return;
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        Log.e("called","onPageSelected");
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+        Log.e("called","onPageScrollStateChanged");
+    }
 
 
     public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
@@ -302,7 +325,7 @@ public class TabViewHomeActivity extends AppCompatActivity implements TabLayout.
         public int getCount() {
             // Show 3 total pages.
 
-            return 4;
+            return mNumOfTabs;
 
         }
     }
@@ -351,7 +374,6 @@ public class TabViewHomeActivity extends AppCompatActivity implements TabLayout.
 
         progressDialog.show();
 
-
         getChildListInterface getResponse = APIClient.getClient().create(getChildListInterface.class);
         Call<ParentPojoStudProf> call = getResponse.doGetListResources(spCustProfile.getParent_id());
         call.enqueue(new Callback<ParentPojoStudProf>() {
@@ -373,7 +395,8 @@ public class TabViewHomeActivity extends AppCompatActivity implements TabLayout.
                         mViewPager = (ViewPager) findViewById(R.id.vp_parent);
                         mViewPager.setAdapter(mSectionsPagerAdapter);
                         mViewPager.setOffscreenPageLimit(noOfTabs);
-                        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+                 //       mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+                        mViewPager.addOnPageChangeListener(TabViewHomeActivity.this);
                         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
 

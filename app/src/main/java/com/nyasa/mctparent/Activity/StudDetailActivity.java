@@ -12,6 +12,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -46,6 +47,18 @@ public class StudDetailActivity extends AppCompatActivity implements NavigationV
         toolbar.setTitle("");
         toolbar_textView=(TextView)findViewById(R.id.toolbar_title);
         toolbar_textView.setText("Student Detail");
+
+      /*  findViewById(R.id.icon).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawerLayout.openDrawer(Gravity.LEFT);
+            }
+        });*/
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
 
         spProfile=new SPProfile(this);
         progressDialog=new ProgressDialog(this);
@@ -231,4 +244,8 @@ public class StudDetailActivity extends AppCompatActivity implements NavigationV
         Toast.makeText(StudDetailActivity.this,msg,Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 }

@@ -11,6 +11,9 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -81,17 +84,23 @@ public class MapsMarkerActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_maps_marker);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar_textView=(TextView)findViewById(R.id.toolbar_title);
-       // toolbar.setTitle("");
-       // toolbar_textView.setText("Tracking");
-        //   toolbar.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-       // toolbar.setNavigationIcon(null);
+        toolbar.setTitle("");
+        toolbar_textView.setText("Tracking");
+       // toolbar.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        findViewById(R.id.icon).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            //    drawerLayout.openDrawer(Gravity.LEFT);
+            }
+        });
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-            getSupportActionBar().setDisplayShowHomeEnabled(false);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
 
@@ -114,7 +123,7 @@ public class MapsMarkerActivity extends AppCompatActivity implements
                 .build();
                 this.mGoogleApiClient.connect();
         Log.e("After googleapiclient", String.valueOf(mGoogleApiClient.isConnected()));
-        setContentView(R.layout.activity_maps_marker);
+
        /* SupportMapFragment fm = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
 //        googleMap = fm.getMapAsync((OnMapReadyCallback);this);
@@ -303,4 +312,8 @@ Log.e("inside","getLocation");
 
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 }
