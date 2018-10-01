@@ -127,17 +127,16 @@ public class ScanActivity extends AppCompatActivity implements NavigationView.On
         toolbar.setTitle("");
         toolbar_textView=(TextView)findViewById(R.id.toolbar_title);
         toolbar_textView.setText("Scan");
-/*
         findViewById(R.id.icon).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 drawerLayout.openDrawer(Gravity.LEFT);
             }
-        });*/
+        });
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            getSupportActionBar().setDisplayShowHomeEnabled(false);
         }
 
         if(list_macId!=null)

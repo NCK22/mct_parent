@@ -87,12 +87,12 @@ public class StudentListActivity extends AppCompatActivity implements Navigation
         toolbar_textView=(TextView)findViewById(R.id.toolbar_title);
         toolbar_textView.setText("Children List");
         toolbar.setTitle("");
-      /*  findViewById(R.id.icon).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.icon).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 drawerLayout.openDrawer(Gravity.LEFT);
             }
-        });*/
+        });
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);

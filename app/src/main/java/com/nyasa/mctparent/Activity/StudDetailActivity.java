@@ -47,19 +47,26 @@ public class StudDetailActivity extends AppCompatActivity implements NavigationV
         toolbar.setTitle("");
         toolbar_textView=(TextView)findViewById(R.id.toolbar_title);
         toolbar_textView.setText("Student Detail");
-
-      /*  findViewById(R.id.icon).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.icon).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawerLayout.openDrawer(Gravity.LEFT);
+                //drawerLayout.openDrawer(Gravity.LEFT);
+                onBackPressed();
             }
-        });*/
+        });
+
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            getSupportActionBar().setDisplayShowHomeEnabled(false);
         }
-
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showToast("Clicked");
+                onBackPressed();
+            }
+        });
         spProfile=new SPProfile(this);
         progressDialog=new ProgressDialog(this);
 
