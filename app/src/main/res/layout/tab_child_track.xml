@@ -146,7 +146,7 @@
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                android:layout_gravity="center_horizontal"
-                                android:src="@drawable/kidd" />
+                                android:src="@drawable/circle" />
                             </LinearLayout>
 
                             <TextView
@@ -323,7 +323,7 @@
                     android:paddingBottom="10dp"
                     android:paddingTop="10dp"
                     android:fontFamily="calibari"
-                    android:text="Last seen near Teacher1 at 5:30pm"
+                    android:text="Last seen"
                     android:textColor="@color/white"
                     android:textSize="14sp" />
 

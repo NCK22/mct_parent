@@ -46,7 +46,10 @@ import com.nyasa.mctparent.R;
 import com.nyasa.mctparent.Storage.SPProfile;
 import org.json.JSONArray;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 
@@ -84,7 +87,7 @@ public class TabChildTrack extends Fragment {
     String position="";
     ImageView imgHome1,imgHome2,imgDriver1,imgDriver2,imgTeacher;
     TextView tvTHome1,tvTDriver1,tvTTeacher,tvTHome2,tvTDriver2,tvLastSeen;
-    String driver_id="0",teacher_id="",last_seen="0",time="",scannedBy="";
+    String driver_id="0",teacher_id="",last_seen="0",time="",scannedBy="",ltime="";
 
 
     @Nullable
@@ -117,7 +120,7 @@ public class TabChildTrack extends Fragment {
             public void onClick(View v) {
                 Log.e("inside","onClick");
                 Log.e("driver_id",driver_id);
-                if(!driver_id.equalsIgnoreCase("0"))
+                if(scannedBy.contains("Driver")&&!driver_id.equalsIgnoreCase("0"))
                 startActivity(new Intent(getActivity(), MapsMarkerActivity.class).putExtra("driver_id",driver_id));
                 else
                     showToast("Journey is not started");
@@ -221,49 +224,159 @@ getScannedChild(getArguments().getString("child_mac_id"));
 
                         Log.e("Response","Success");
 
+                        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
+
+                       // Date date1 = sdf.parse(date1);
+                       // Date date2 = sdf.parse(date2);
+
+
+
                         for(int i=0;i<list_child.size();i++)
                         {
                             if(list_child.get(i).getScannedby().equalsIgnoreCase("parent"))
                             {
-                                 time=list_child.get(i).getDateTime();
-                                scannedBy="Parent ";
-                                if(time.contains("AM")) {
-                                    imgHome1.setImageResource(R.drawable.ic_filled_circle);
-                                    tvTHome1.setText(time.substring(11, 16) + time.substring(20, 22));
-                                }
-                                else if(time.contains("PM"))
-                                {
-                                    imgHome2.setImageResource(R.drawable.ic_filled_circle);
-                                    tvTHome2.setText(time.substring(11, 16) + time.substring(20, 22));
-                                }
+                                    time=list_child.get(i).getDateTime();
+                                    if(time.contains("AM")) {
+                                        imgHome1.setImageResource(R.drawable.kidd);
+                                        tvTHome1.setText(time.substring(11, 16) + time.substring(20, 22));
+                                    }
+                                    else if(time.contains("PM"))
+                                    {
+                                        imgHome2.setImageResource(R.drawable.kidd);
+                                        tvTHome2.setText(time.substring(11, 16) + time.substring(20, 22));
+                                    }
+
+                                    if(ltime.equalsIgnoreCase("")){
+                                        ltime=time; scannedBy="Parent";}
+                                    else
+                                    {
+                                        int l=Integer.parseInt(ltime.substring(11,13)+ltime.substring(14,16));
+                                        int c=Integer.parseInt(time.substring(11,13)+time.substring(14,16));
+                                        Log.e("cp",c+" l"+l);
+                                        if(c>=l)
+                                        {
+                                            if(time.contains("AM")&&ltime.contains("AM")||
+                                                    time.contains("PM")&&ltime.contains("PM")||
+                                                    time.contains("PM")&&ltime.contains("AM")){
+                                                ltime=time;
+                                            scannedBy="Parent";}
+
+                                        }
+                                        else {
+
+                                            if(time.contains("AM")&&ltime.contains("PM")){
+                                                ltime=time;
+                                                scannedBy="Parent";}
+                                        }
+
+                                    }
+
+                               /*     Date date1=sdf.parse(list_child.get(i).getDateTime());
+                                    Date date2=sdf.parse(ltime);
+                                    if (date1.compareTo(date2) >= 0 || ltime.equalsIgnoreCase("") ) {
+                                        System.out.println("earlier");
+                                        ltime=list_child.get(i).getDateTime();
+                                        scannedBy="Parent ";
+                                    }*/
+
+
+
 
                             }
                             else if(list_child.get(i).getScannedby().equalsIgnoreCase("driver"))
                             {
                                 driver_id=list_child.get(i).getScannedby_id();
                                  time=list_child.get(i).getDateTime();
-                                scannedBy="Driver "+driver_id;
                                 if(time.contains("AM")) {
-                                    imgDriver1.setImageResource(R.drawable.ic_filled_circle);
+                                    imgDriver1.setImageResource(R.drawable.kidd);
                                     tvTDriver1.setText(time.substring(11, 16) + time.substring(20, 22));
                                 }
                                 else if(time.contains("PM")){
-                                    imgDriver2.setImageResource(R.drawable.ic_filled_circle);
+                                    imgDriver2.setImageResource(R.drawable.kidd);
                                     tvTDriver2.setText(time.substring(11, 16) + time.substring(20, 22));
                                 }
+
+
+                                if(ltime.equalsIgnoreCase("")){
+                                    ltime=time; scannedBy="Driver"+driver_id;}
+                                else
+                                {
+                                    int l=Integer.parseInt(ltime.substring(11,13)+ltime.substring(14,16));
+                                    int c=Integer.parseInt(time.substring(11,13)+time.substring(14,16));
+                                    Log.e("cd",c+" l"+l);
+                                    if(c>=l)
+                                    {
+                                        if(time.contains("AM")&&ltime.contains("AM")||
+                                                time.contains("PM")&&ltime.contains("PM")||
+                                                time.contains("PM")&&ltime.contains("AM")){
+                                            ltime=time;
+                                            scannedBy="Driver"+driver_id;}
+
+                                    }
+                                    else {
+                                        if(time.contains("AM")&&ltime.contains("PM")){
+                                            ltime=time;
+                                            scannedBy="Driver"+driver_id;}
+                                    }
+
+                                }
+
+
                             }
                             else if(list_child.get(i).getScannedby().equalsIgnoreCase("teacher"))
                             {
-                                teacher_id=list_child.get(i).getScannedby_id();
-                                time=list_child.get(i).getDateTime();
-                                scannedBy="Teacher "+teacher_id;
-                                imgTeacher.setImageResource(R.drawable.ic_filled_circle);
-                                tvTTeacher.setText(time.substring(11, 16) + time.substring(20, 22));
+
+
+                                    teacher_id=list_child.get(i).getScannedby_id();
+                                    time=list_child.get(i).getDateTime();
+                                    imgTeacher.setImageResource(R.drawable.kidd);
+                                    tvTTeacher.setText(time.substring(11, 16) + time.substring(20, 22));
+
+
+                                  /*  Date date1=sdf.parse(list_child.get(i).getDateTime());
+                                    Date date2=sdf.parse(ltime);
+
+                                    if (date1.compareTo(date2) >= 0 || time.equalsIgnoreCase("")) {
+                                        System.out.println("earlier");
+                                        ltime=list_child.get(i).getDateTime();
+                                        scannedBy="Teacher "+teacher_id;
+                                    }
+*/
+                                if(ltime.equalsIgnoreCase("")){
+                                    ltime=time; scannedBy="Teacher"+teacher_id;}
+                                else
+                                {
+                                    Log.e("time",time);
+                                    int l=Integer.parseInt(ltime.substring(11,13)+ltime.substring(14,16));
+                                    int c=Integer.parseInt(time.substring(11,13)+time.substring(14,16));
+                                    Log.e("c",c+"l "+l);
+                                    if(c>l)
+                                    {
+
+                                            if(time.contains("AM")&&ltime.contains("AM")||
+                                                    time.contains("PM")&&ltime.contains("PM")||
+                                                    time.contains("PM")&&ltime.contains("AM")) {
+                                                ltime = time;
+                                                scannedBy = "Teacher" + teacher_id;
+                                            }
+
+                                    }
+                                    else{
+                                        if(time.contains("AM")&&ltime.contains("PM")){
+                                            ltime=time;
+                                            scannedBy="Teacher"+teacher_id;}
+                                    }
+
+
+                                }
+
+
                             }
                         }
 
 
-                        tvLastSeen.setText("Last seen near "+scannedBy+" At "+ time.substring(11,16)+time.substring(20,22));
+
+                        tvLastSeen.setText("Last seen near "+scannedBy+" At "+ ltime.substring(11,16)+ltime.substring(20,22));
 
 
 

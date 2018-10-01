@@ -380,7 +380,7 @@ public class TabViewHomeActivity extends AppCompatActivity implements TabLayout.
             @Override
             public void onResponse(Call<ParentPojoStudProf> call, Response<ParentPojoStudProf> response) {
 
-                Log.e("Inside","onResponse");
+//                Log.e("Inside","onResponse");
                // Log.e("response body",response.body().getStatus());
                 //Log.e("response body",response.body().getMsg());
                 ParentPojoStudProf parentPojoStudProf =response.body();
@@ -388,6 +388,7 @@ public class TabViewHomeActivity extends AppCompatActivity implements TabLayout.
                     if(parentPojoStudProf.getStatus().equalsIgnoreCase("true")){
                         list_child=parentPojoStudProf.getObjProfile();
                         noOfTabs=list_child.size();
+                        Log.e("noOfTabs",""+noOfTabs);
                         Log.e("Response","Success");
 
                         mSectionsPagerAdapter = new TabViewHomeActivity.SectionsPagerAdapter(getSupportFragmentManager(),noOfTabs);
@@ -395,8 +396,8 @@ public class TabViewHomeActivity extends AppCompatActivity implements TabLayout.
                         mViewPager = (ViewPager) findViewById(R.id.vp_parent);
                         mViewPager.setAdapter(mSectionsPagerAdapter);
                         mViewPager.setOffscreenPageLimit(noOfTabs);
-                 //       mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-                        mViewPager.addOnPageChangeListener(TabViewHomeActivity.this);
+                        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+                 //       mViewPager.addOnPageChangeListener(TabViewHomeActivity.this);
                         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
 
