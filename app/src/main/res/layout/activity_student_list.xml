@@ -74,8 +74,9 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="@color/blue"
+        android:background="@color/grey"
         app:headerLayout="@layout/left_nav_header"
+        app:itemBackground="@drawable/bg_state_list"
         app:itemIconTint="@color/state_list"
         app:itemTextColor="@color/state_list"
         app:menu="@menu/menu_drawer" />

@@ -4,6 +4,11 @@ import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -211,9 +216,46 @@ public class MapsMarkerActivity extends AppCompatActivity implements
         // I have used this to display the time as title for location markers
         // you can safely comment the following four lines but for this info
         IconGenerator iconFactory = new IconGenerator(this);
-        iconFactory.setStyle(IconGenerator.STYLE_PURPLE);
-        options.icon(BitmapDescriptorFactory.fromBitmap(iconFactory.makeIcon(mLastUpdateTime)));
+        iconFactory.setStyle(IconGenerator.STYLE_RED);
+
+      /*  Bitmap.Config conf = Bitmap.Config.ARGB_4444;
+        Bitmap bmp = Bitmap.createBitmap(20, 20, conf);
+        Canvas canvas1 = new Canvas(bmp);
+
+// paint defines the text color, stroke width and size
+        Paint color = new Paint();
+        color.setTextSize(10);
+        color.setColor(Color.BLACK);
+
+// modify canvas
+        canvas1.drawBitmap(BitmapFactory.decodeResource(getResources(),
+                R.drawable.hand), 0,0, color);
+        canvas1.drawText("User Name!", 30, 40, color);
+        options.icon(BitmapDescriptorFactory.fromBitmap(bmp));
+*/
+ //  Bitmap bitmap=BitmapFactory.decodeResource(getResources(),R.drawable.hand);
+
+          options.icon(BitmapDescriptorFactory.fromBitmap(iconFactory.makeIcon(mLastUpdateTime)));
         //options.icon(BitmapDescriptorFactory.fromResource(R.drawable.hand));
+
+        /***********/
+
+     /*   BitmapFactory.Options options2 = new BitmapFactory.Options();
+        options2.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile("drawable/hand.png", options2);
+        int imageHeight = options2.outHeight;
+        int imageWidth = options2.outWidth;
+        String imageType = options2.outMimeType;
+        if(imageWidth > imageHeight) {
+            options2.inSampleSize = calculateInSampleSize(options2,512,256);//if     landscape
+        } else{
+            options2.inSampleSize = calculateInSampleSize(options2,256,512);//if     portrait
+        }
+        options2.inJustDecodeBounds = false;
+      Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.hand,options2);
+
+        options.icon(BitmapDescriptorFactory.fromBitmap(bitmap));*/
+        /***********************/
         options.anchor(iconFactory.getAnchorU(), iconFactory.getAnchorV());
         //LatLng currentLatLng = new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
         LatLng currentLatLng = new LatLng(Double.parseDouble(lat), Double.parseDouble(lng));
@@ -226,6 +268,26 @@ public class MapsMarkerActivity extends AppCompatActivity implements
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng,
                 15));
         Log.d(TAG, "Zoom done.............................");
+    }
+    public static int calculateInSampleSize(
+            BitmapFactory.Options options, int reqWidth, int reqHeight) {
+// Raw height and width of image
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+
+        if (height > reqHeight || width > reqWidth) {
+
+            // Calculate ratios of height and width to requested height and     width
+            final int heightRatio = Math.round((float) height / (float)     reqHeight);
+            final int widthRatio = Math.round((float) width / (float) reqWidth);
+
+            // Choose the smallest ratio as inSampleSize value, this will     guarantee
+            // a final image with both dimensions larger than or equal to the
+            // requested height and width.
+            inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
+        }
+        return inSampleSize;
     }
 
     @Override
@@ -250,9 +312,7 @@ public class MapsMarkerActivity extends AppCompatActivity implements
            // startLocationUpdates();
            // addMarker();
             Log.d(TAG, "Location update resumed .....................");
-
         }
-
     }
 
     @Override
@@ -261,10 +321,11 @@ public class MapsMarkerActivity extends AppCompatActivity implements
         getLocation(intent.getStringExtra("driver_id"));
     }
 
-    public void getLocation(String driver_id){
+    public void getLocation(String driver_id)
+    {
 
         progressDialog.show();
-Log.e("inside","getLocation");
+        Log.e("inside","getLocation");
 
         getDriverLocInterface getResponse = APIClient.getClient().create(getDriverLocInterface.class);
         Call<ParentPojoLocation> call = getResponse.doGetListResources(driver_id);

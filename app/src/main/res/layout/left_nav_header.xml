@@ -5,7 +5,7 @@
     android:layout_height="110dp"
     android:background="@color/white">
 
-    <cn.gavinliu.android.lib.shapedimageview.ShapedImageView
+    <ImageView
         android:id="@+id/header_image"
         android:layout_width="80dp"
         android:layout_height="80dp"
@@ -15,7 +15,8 @@
         android:layout_marginLeft="10dp"
         android:layout_marginStart="10dp"
         android:contentDescription="@string/app_name"
-        app:shape_mode="circle"/>
+        android:src="@drawable/logo"
+/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -40,7 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="@string/default_email"
+            android:text=""
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
     </LinearLayout>
@@ -51,6 +52,5 @@
         android:layout_below="@+id/header_image"
         android:layout_marginTop="10dp"
         android:background="@drawable/line_gradient"/>
-
 
 </RelativeLayout>
