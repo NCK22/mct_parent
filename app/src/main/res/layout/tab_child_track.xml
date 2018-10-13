@@ -99,8 +99,8 @@
 
                                 <ImageView
                                     android:id="@+id/img_cHome"
-                                    android:layout_width="30dp"
-                                    android:layout_height="30dp"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
                                     android:layout_gravity="center_horizontal"
                                     android:src="@drawable/circle" />
 
@@ -142,8 +142,8 @@
 
                             <ImageView
                                 android:id="@+id/img_cDriver"
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
                                android:layout_gravity="center_horizontal"
                                 android:src="@drawable/circle" />
                             </LinearLayout>
@@ -184,8 +184,8 @@
 
                             <ImageView
                                 android:id="@+id/img_cTeacher"
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
                                 android:layout_gravity="center_horizontal"
                                 android:src="@drawable/circle" />
                             </LinearLayout>
@@ -225,8 +225,8 @@
 
                             <ImageView
                                 android:id="@+id/img_cDriver2"
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
                               android:layout_gravity="center_horizontal"
                                 android:src="@drawable/circle" />
                             </LinearLayout>
@@ -267,8 +267,8 @@
 
                             <ImageView
                                 android:id="@+id/img_cHome2"
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
                                 android:layout_gravity="center_horizontal"
                                 android:src="@drawable/circle" />
 
