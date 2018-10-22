@@ -123,7 +123,7 @@ public class TabChildTrack extends Fragment {
                 if(scannedBy.contains("Driver")&&!driver_id.equalsIgnoreCase("0"))
                 startActivity(new Intent(getActivity(), MapsMarkerActivity.class).putExtra("driver_id",driver_id));
                 else
-                    showToast("Journey is not started");
+                    showToast("Driver has not started app.Please tell to start app.");
             }
         });
         if(ScanActivity.mListItem!=null&&!position.equalsIgnoreCase("")) {
